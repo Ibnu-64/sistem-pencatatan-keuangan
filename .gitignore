@@ -8,6 +8,10 @@ env/
 __pycache__/
 *.py[cod]
 *.pyo
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
 
 # IDE/editor settings
 .vscode/
@@ -22,9 +26,13 @@ Thumbs.db
 # Log files
 *.log
 
-# Compiled HTML/CSS tools
+# Compiled files
 *.map
-
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
 
 # Bytecode files
 *.pyc
