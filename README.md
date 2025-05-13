@@ -6,13 +6,11 @@ Sistem Pencatatan Keuangan adalah aplikasi berbasis web yang dirancang untuk mem
 Proyek ini dikembangkan untuk memenuhi tugas mata kuliah Basis Data.
 Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 
---
 
 ## Fitur Utama
 - **Tambah, lihat, edit, dan hapus data transaksi**
 - **Database dirancang dengan normalisasi hingga 3NF**
 
---
 
 ## Tech Stack
 
