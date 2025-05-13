@@ -26,7 +26,7 @@ Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 - <a href="https://www.w3schools.com/js/DEFAULT.asp" target="_blank">JavaScript</a>
 
 ## Library dan Tools Tambahan
--Flask-MySQL Connector
+- Flask-MySQL Connector
 
 
 
