@@ -30,7 +30,6 @@ Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 ## Library dan Tools Tambahan
 -Flask-MySQL Connector
 
---
 
 
 
