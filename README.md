@@ -28,6 +28,27 @@ Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 ## Library dan Tools Tambahan
 - Flask-MySQL Connector
 
+- # Setup Lokal
+1. Buat dan Aktifkan Virutal Environment
+```bash
+python -m venv venv'
+source venv/bin/activate # Linux/macOs
+venv\Scripts\activate    # Windows
+```
 
+2. Install Dependency
+```bash
+pip install -r requirements.txt
+```
+
+3. Mulai proses build Tailwind CLI
+```bash
+npx tailwindcss -i ./static/css/input.css -o ./static/dist/output.css --watch
+```
+
+4. Jalankan Aplikasi
+```bash
+flask --app app  run --debug
+```
 
 
