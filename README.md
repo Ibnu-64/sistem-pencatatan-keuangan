@@ -31,7 +31,7 @@ Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 - # Setup Lokal
 1. Buat dan Aktifkan Virutal Environment
 ```bash
-python -m venv venv'
+python -m venv venv
 source venv/bin/activate # Linux/macOs
 venv\Scripts\activate    # Windows
 ```
