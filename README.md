@@ -26,7 +26,8 @@ Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 - <a href="https://www.w3schools.com/js/DEFAULT.asp" target="_blank">JavaScript</a>
 
 ## Library dan Tools Tambahan
-- Flask-MySQL Connector
+- <a href="https://pypi.org/project/PyMySQL/" target="_blank">PyMySQL</a>
+- <a href="https://jquery.com/" target="_blank">jQuery</a>
 
 - # Setup Lokal
 1. Buat dan Aktifkan Virutal Environment
