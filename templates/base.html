@@ -8,12 +8,16 @@
     <title>{% block title %}Sistem Pencatatan Keuangan{% endblock %}</title>
     <!-- Tailwind CSS -->
     <link href="{{ url_for('static', filename='dist/output.css') }}" rel="stylesheet">
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
     {% block head %}{% endblock %}
 </head>
 
 <body>
     {% block content %}{% endblock %} <!-- Konten utama halaman -->
+    {% block scripts %}{% endblock %} <!-- Skrip tambahan -->
 </body>
 
 </html>
