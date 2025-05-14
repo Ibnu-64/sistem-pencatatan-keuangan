@@ -1,6 +1,8 @@
 from flask import render_template
 from flask import Flask
 from flask import jsonify
+from pymysql import MySQLError, OperationalError
+import pymysql
 app = Flask(__name__)
 
 @app.route('/')
