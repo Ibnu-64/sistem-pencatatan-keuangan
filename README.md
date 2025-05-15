@@ -23,19 +23,6 @@ Fokus utama proyek adalah pada perancangan dan implementasi sistem basis data.
 - Tailwind CSS
 - JavaScript
 
-
-## Tech Stack
-### Backend
-- Python
-- Flask
-- MySQL
-
-### Frontend
-- HTML
-- CSS
-- Tailwind CSS
-- JavaScript
-- 
 ## Library dan Tools Tambahan
 - PyMySQL — untuk koneksi antara Python dan MySQL
 - jQuery — untuk manipulasi DOM dan AJAX yang lebih mudah
