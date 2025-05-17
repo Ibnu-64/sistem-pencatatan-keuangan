@@ -8,26 +8,25 @@
 {% endblock %}
 
 {% block content %}
-<section class="flex flex-1 flex-col gap-4 px-76 py-16 bg-gray-950 min-h-screen">
-    <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-        {{ card.balanceCard(
-            label="Income",
-            balance='10123',
-        ) }}
-        {{ card.balanceCard(
-            label="Expense",
-            balance='345345',
-        ) }}
-        {{ card.cardProfit(
-            isProfit=True,
-            balance='23472',
-            percent='23',
-        ) }}
-    </div>
-    <div class="aspect-video rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center">
-        <h1 class="text-4xl text-gray-200 tex"> Container for chart </h1>
-    </div>
-</section>
+<main class="flex flex-1 flex-col gap-4 px-6 py-16 bg-gray-950 min-h-screen">
+    <section class="bg-gray-950 min-h-screen">
+        <div class="max-w-screen-2xl mx-auto px-4 flex flex-col gap-8">
+
+            <!-- Grid untuk kartu -->
+            <div class="grid auto-rows-min gap-y-6 gap-x-12 md:grid-cols-3">
+                {{ card.balanceCard(label="Income", balance='10123') }}
+                {{ card.balanceCard(label="Expense", balance='345345') }}
+                {{ card.cardProfit(isProfit=True, balance='23472', percent='23') }}
+            </div>
+
+            <!-- Chart -->
+            <div class="aspect-video rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center">
+                <h1 class="text-4xl text-gray-200">Container for chart</h1>
+            </div>
+
+        </div>
+    </section>
+</main>
 {% block scripts %}
 <script src="{{ url_for('static', filename='JS/domManipulation.js') }}"></script>
 <script src="{{ url_for('static', filename='JS/ajax.js') }}"></script>
