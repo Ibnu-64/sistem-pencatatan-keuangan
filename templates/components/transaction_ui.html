@@ -1,0 +1,43 @@
+{# children item transaction #}
+{% macro item(type, category, amount, time_str, icon_class='fa-solid fa-money-bill') %}
+<li class="mb-6 ml-6">
+    <button type="button" class="w-full text-left cursor-pointer" onclick="openModal('{{ category }}')">
+        <div
+            class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+        </div>
+        <div
+            class="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-700/90">
+            <div class="inline-flex gap-2">
+                <i class="{{ icon_class }} font-normal rounded-sm text-4xl p-2 dark:bg-gray-600 dark:text-gray-300"
+                    aria-hidden="true"></i>
+                <div class="dark:text-gray-300">
+                    <h6 class="text-lg sm:text-xl font-medium">{{ category }}</h6>
+                    <time class="text-gray-400 text-xs italic" datetime="{{ time_str }}">{{ time_str }}</time>
+                </div>
+            </div>
+            <data value="{{ amount }}"
+                class="mb-1 text-md sm:text-lg font-medium {{ 'text-green-400' if type == 'income' else 'text-red-400' }} sm:mb-0">
+                {{ "+" if type == 'income' else "-" }}{{ "{:,.0f}".format(amount).replace(",", ".") }}
+            </data>
+        </div>
+    </button>
+</li>
+{% endmacro %}
+
+{# group of items per day #}
+{% macro timeline_group(date_str, days, data) %}
+<div>
+    <div class="inline-flex items-center justify-between gap-4 mb-4">
+        <time class="text-gray-400 text-xl">{{ date_str }}</time>
+        <time
+            class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-800 dark:text-gray-300">
+            {{ days }}
+        </time>
+    </div>
+    <ol class="relative border-s ml-6 border-gray-200 dark:border-gray-700">
+        {% for tx in data %}
+            {{ item(tx.type, tx.category, tx.amount, tx.item.strftime('%H:%M'), tx.icon or 'fa-solid fa-question') }}
+        {% endfor %}
+    </ol>
+</div>
+{% endmacro %}
