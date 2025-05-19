@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% import 'components/balance-card.html' as card %}
+{% import "components/transaction_ui.html" as ui %}
 
 {% block head %}
 {{ super() }}
@@ -24,88 +25,10 @@
                 <h1 class="text-4xl text-gray-200">Container for chart</h1>
             </div>
 
-            <div class="container bg-gray-900 p-4 rounded-lg border border-gray-800">
-                <div>
-                    <div class="inline-flex items-center justify-between gap-4 mb-4">
-                        <time class="text-gray-400 text-xl" datetime="05-18">Mei 18</time>
-                        <time
-                            class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-800 dark:text-gray-300">Mig</time>
-                    </div>
-                    <ol class="relative border-s ml-6 border-gray-200 dark:border-gray-700">
-                        <li class="mb-6 ml-6">
-                            <button type="button" class="w-full text-left cursor-pointer"
-                                onclick="alert('Akan Triggers Modal')">
-                                <div
-                                    class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
-                                </div>
-                                <div
-                                    class="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-700/90">
-                                    <div class="inline-flex gap-2">
-                                        <i class="fa-solid fa-burger font-normal rounded-sm text-4xl p-2 dark:bg-gray-600 dark:text-gray-300"
-                                            aria-hidden="true"></i>
-                                        <div class="dark:text-gray-300 ">
-                                            <h6 class="text-lg sm:text-xl font-medium">Makanan</h6>
-                                            <time class="text-gray-400 text-xs italic" datetime="20:15">20:15</time>
-                                        </div>
-                                    </div>
-                                    <data value="-55.000"
-                                        class="mb-1 text-md sm:text-lg font-medium text-red-400 sm:mb-0">-55.000</data>
-                                </div>
-                            </button>
-                        </li>
-                        <li class="mb-6 ml-6">
-                            <button type="button" class="w-full text-left cursor-pointer"
-                                onclick="alert('Akan Triggers Modal')">
-                                <div
-                                    class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
-                                </div>
-                                <div
-                                    class="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-700/90">
-                                    <div class="inline-flex gap-2">
-                                        <i class="fa-solid fa-wallet font-normal rounded-sm text-4xl p-2 dark:bg-gray-600 dark:text-gray-300"
-                                            aria-hidden="true"></i>
-                                        <div class="dark:text-gray-300 ">
-                                            <h6 class="text-lg sm:text-xl font-medium">Tunai</h6>
-                                            <time class="text-gray-400 text-xs italic" datetime="14:35">14:35</time>
-                                        </div>
-                                    </div>
-                                    <data value="+20.000"
-                                        class="mb-1 text-md sm:text-lg font-medium text-green-400 sm:mb-0">+20.000</data>
-                                </div>
-                            </button>
-                        </li>
-                    </ol>
-                </div>
-                <div>
-                    <div class="inline-flex items-center justify-between gap-4 mb-4">
-                        <time class="text-gray-400 text-xl" datetime="05-17">Mei 17</time>
-                        <time
-                            class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-800 dark:text-gray-300">Mig</time>
-                    </div>
-                    <ol class="relative border-s ml-6 border-gray-200 dark:border-gray-700">
-                        <li class="mb-6 ml-6">
-                            <button type="button" class="w-full text-left cursor-pointer"
-                                onclick="alert('Akan Triggers Modal')">
-                                <div
-                                    class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
-                                </div>
-                                <div
-                                    class="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-700/90">
-                                    <div class="inline-flex gap-2">
-                                        <i class="fa-solid fa-mug-hot font-normal rounded-sm text-4xl p-2 dark:bg-gray-600 dark:text-gray-300"
-                                            aria-hidden="true"></i>
-                                        <div class="dark:text-gray-300 ">
-                                            <h6 class="text-lg sm:text-xl font-medium">Minum</h6>
-                                            <time class="text-gray-400 text-xs italic" datetime="01:15">01:15</time>
-                                        </div>
-                                    </div>
-                                    <data value="-10.000"
-                                        class="mb-1 text-md sm:text-lg font-medium text-red-400 sm:mb-0">-10.000</data>
-                                </div>
-                            </button>
-                        </li>
-                    </ol>
-                </div>
+            <div class="container p-4 rounded-lg bg-gray-900 text-white">
+                {% for tanggal, data in transactions_by_date.items() %}
+                    {{ ui.timeline_group(format_tanggal(tanggal), get_day_label(tanggal), data) }}
+                {% endfor %}
             </div>
         </div>
     </section>
