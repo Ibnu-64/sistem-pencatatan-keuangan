@@ -1,3 +1,9 @@
+// Jika button add di klik, buka modal addNote
+document.getElementById('add-note').addEventListener('click', () => {
+    openModal('addNote');
+});
+
+// Logika untuk menu actions
 const menuButtons = document.querySelectorAll(".actions-menu-button"); // Ambil setiap tombol menu
 const menuItems = document.querySelectorAll(".actions-menu"); // Ambil setiap item menu
 
@@ -21,6 +27,7 @@ menuButtons.forEach((menuButton) => {
         }
     });
 });
+
 document.addEventListener("click", function (event) {
     let clickedInsideAnyMenu = false;
 
@@ -57,7 +64,8 @@ menuItems.forEach((menu) => {
         if (action === "edit") {
             btn.addEventListener("click", function () {
                 hideMenu();
-                alert("Edit action triggered");
+                openModal('editNote');
+
             });
         } else if (action === "delete") {
             btn.addEventListener("click", function () {

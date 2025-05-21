@@ -13,7 +13,6 @@
 {% macro tableBody(data) %}
 <tbody>
     {% for col in data %}
-
     <tr
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
         <td class="px-6 py-4">
@@ -129,47 +128,6 @@
         </ul>
     </nav>
 </div>
+<script src="{{ url_for('static', filename='JS/modal.js') }}"></script>
 <script src="{{ url_for('static', filename='JS/dataActions.js') }}"></script>
-<script>
-
-
-    function openModal(modalType) {
-        const backdrop = document.getElementById('backdrop');
-        // buat backdrop terlihat
-        backdrop.classList.remove('invisible', 'opacity-0');
-        backdrop.classList.add('visible', 'opacity-100');
-
-        // pastikan semua modal tersembunyi dengan class hidden
-        document.querySelectorAll('#modal').forEach(modal => {
-            modal.classList.add('hidden');
-        });
-
-        // Tampilkan modal yang sesuai
-        document.querySelector(`#modal[data-modal="${modalType}"]`).classList.remove('hidden');
-    }
-
-    function closeModal() {
-        const backdrop = document.getElementById('backdrop');
-        backdrop.classList.remove('opacity-100');
-        backdrop.classList.add('opacity-0');
-        setTimeout(() => {
-            backdrop.classList.add('invisible');
-        }, 300);
-    }
-
-    // munculkan modal saat tombol "Add" diklik
-    document.getElementById('add-note').addEventListener('click', () => {
-        openModal('addNote');
-    });
-
-    document.querySelectorAll('[data-action="edit"]').forEach(button => {
-        button.addEventListener('click', () => {
-            openModal('editNote');
-        });
-    });
-
-
-
-
-</script>
 {% endmacro %}
