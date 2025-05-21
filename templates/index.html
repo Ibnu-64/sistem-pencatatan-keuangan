@@ -27,7 +27,7 @@
             </div>
 
             <div class="container p-4 rounded-lg bg-gray-900 text-white">
-                {{ tabel.tables()}}
+                {{ tabel.tables(transactions_by_date) }}
             </div>
         </div>
     </section>
@@ -35,5 +35,14 @@
 {% block scripts %}
 <script src="{{ url_for('static', filename='JS/domManipulation.js') }}"></script>
 <script src="{{ url_for('static', filename='JS/ajax.js') }}"></script>
+
+<script>
+    fetch('/api/transactions')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.querySelector('tbody');
+            console.log(data);
+        });
+</script>
 {% endblock %}
 {% endblock %}
