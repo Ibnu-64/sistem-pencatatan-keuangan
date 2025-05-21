@@ -87,17 +87,6 @@
         {{ noteFrom() }}
     </div>
 </div>
-<script src="{{ url_for('static', filename='JS/modal.js') }}"></script>
-<script>
-
-    const tabs = document.querySelectorAll('[data-active]');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(b => b.setAttribute('data-active', 'false'));
-            tab.setAttribute('data-active', 'true');
-        });
-    });
-</script>
 {% endmacro %}
 
 {% macro editNote() %}
@@ -111,5 +100,4 @@
         {{ noteFrom() }}
     </div>
 </div>
-<script src="{{ url_for('static', filename='JS/modal.js') }}"></script>
 {% endmacro %}

@@ -44,7 +44,9 @@
 </div>
 {% block scripts %}
 <script src="{{ url_for('static', filename='JS/domManipulation.js') }}"></script>
+<script src="{{ url_for('static', filename='JS/modal.js') }}"></script>
 <script src="{{ url_for('static', filename='JS/ajax.js') }}"></script>
+<script src="{{ url_for('static', filename='JS/dataActions.js') }}"></script>
 
 <script>
     fetch('/api/transactions')

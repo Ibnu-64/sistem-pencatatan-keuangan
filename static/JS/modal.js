@@ -30,6 +30,14 @@ function closeModal() {
 }
 
 
+const tabs = document.querySelectorAll('[data-active]');
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        tabs.forEach(b => b.setAttribute('data-active', 'false'));
+        tab.setAttribute('data-active', 'true');
+    });
+});
+
 document.querySelectorAll(".close-modal").forEach(btn => {
     btn.addEventListener("click", () => {
         closeModal();

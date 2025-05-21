@@ -28,7 +28,6 @@
                 class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">{{
                 col.type }}</span>
             {% endif %}
-
         </td>
         <td class="px-6 py-4">
             {{ col.category }}
@@ -82,7 +81,6 @@
         </td>
     </tr>
     {% endfor %}
-
 </tbody>
 {% endmacro %}
 
@@ -128,5 +126,4 @@
         </ul>
     </nav>
 </div>
-<script src="{{ url_for('static', filename='JS/dataActions.js') }}"></script>
 {% endmacro %}
