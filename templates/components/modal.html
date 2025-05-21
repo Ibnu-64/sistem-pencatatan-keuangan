@@ -63,7 +63,7 @@
 {% endmacro %}
 
 {% macro addNote()%}
-<div id="modal" class="hidden relative p-4 w-full max-w-md max-h-full" data-modal="addNote">
+<div class="modal hidden relative p-4 w-full max-w-md max-h-full" data-modal="addNote">
     <!-- Modal content -->
     <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
         <!-- Modal header -->
@@ -89,12 +89,6 @@
 </div>
 <script src="{{ url_for('static', filename='JS/modal.js') }}"></script>
 <script>
-    document.querySelectorAll('.close-modal').forEach(btn => {
-        btn.addEventListener('click', () => {
-            closeModal();
-        });
-    });
-
 
     const tabs = document.querySelectorAll('[data-active]');
     tabs.forEach(tab => {
@@ -107,11 +101,15 @@
 {% endmacro %}
 
 {% macro editNote() %}
-<div id="modal" class="hidden relative bg-white rounded-lg shadow-sm dark:bg-gray-700" data-modal="editNote">
-    <!-- Modal Header -->
-    {{ modalHeader('Edit Note') }}
+<div class="modal hidden relative bg-white rounded-lg shadow-sm dark:bg-gray-700" data-modal="editNote">
+    <!--  -->
+    <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+        <!-- Modal Header -->
+        {{ modalHeader('Edit Note') }}
 
-    <!-- Modal Body -->
-    {{ noteFrom() }}
+        <!-- Modal Body -->
+        {{ noteFrom() }}
+    </div>
 </div>
+<script src="{{ url_for('static', filename='JS/modal.js') }}"></script>
 {% endmacro %}

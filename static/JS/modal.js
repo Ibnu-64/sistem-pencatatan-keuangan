@@ -6,13 +6,13 @@ function openModal(modalType) {
     backdrop.classList.add("visible", "opacity-100");
 
     // pastikan semua modal tersembunyi dengan class hidden
-    document.querySelectorAll("#modal").forEach((modal) => {
+    document.querySelectorAll(".modal").forEach((modal) => {
         modal.classList.add("hidden");
     });
 
     // Tampilkan modal yang sesuai
     document
-        .querySelector(`#modal[data-modal="${modalType}"]`)
+        .querySelector(`.modal[data-modal="${modalType}"]`)
         .classList.remove("hidden");
 }
 
@@ -28,3 +28,10 @@ function closeModal() {
         backdrop.classList.add("invisible");
     }, 300); // sama dengan duration-300
 }
+
+
+document.querySelectorAll(".close-modal").forEach(btn => {
+    btn.addEventListener("click", () => {
+        closeModal();
+    });
+});

@@ -1,7 +1,4 @@
 // Jika button add di klik, buka modal addNote
-document.getElementById('add-note').addEventListener('click', () => {
-    openModal('addNote');
-});
 
 // Logika untuk menu actions
 const menuButtons = document.querySelectorAll(".actions-menu-button"); // Ambil setiap tombol menu
@@ -74,4 +71,7 @@ menuItems.forEach((menu) => {
             });
         }
     });
+});
+document.getElementById('add-note').addEventListener('click', () => {
+    openModal('addNote');
 });
