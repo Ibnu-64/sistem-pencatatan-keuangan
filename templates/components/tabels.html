@@ -94,8 +94,8 @@
         <div>
             <h2 class="text-xl font-medium ml-2">History Keuangan</h1>
         </div>
-        <button
-            
+        <button 
+            id="add-note"
             class="inline-flex items-center gap-4 rounded-sm bg-blue-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
             <i class="fa-solid fa-plus"></i>
             <span class="hidden md:inline">Add</span>
@@ -130,5 +130,46 @@
     </nav>
 </div>
 <script src="{{ url_for('static', filename='JS/dataActions.js') }}"></script>
+<script>
 
+
+    function openModal(modalType) {
+        const backdrop = document.getElementById('backdrop');
+        // buat backdrop terlihat
+        backdrop.classList.remove('invisible', 'opacity-0');
+        backdrop.classList.add('visible', 'opacity-100');
+
+        // pastikan semua modal tersembunyi dengan class hidden
+        document.querySelectorAll('#modal').forEach(modal => {
+            modal.classList.add('hidden');
+        });
+
+        // Tampilkan modal yang sesuai
+        document.querySelector(`#modal[data-modal="${modalType}"]`).classList.remove('hidden');
+    }
+
+    function closeModal() {
+        const backdrop = document.getElementById('backdrop');
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+        setTimeout(() => {
+            backdrop.classList.add('invisible');
+        }, 300);
+    }
+
+    // munculkan modal saat tombol "Add" diklik
+    document.getElementById('add-note').addEventListener('click', () => {
+        openModal('addNote');
+    });
+
+    document.querySelectorAll('[data-action="edit"]').forEach(button => {
+        button.addEventListener('click', () => {
+            openModal('editNote');
+        });
+    });
+
+
+
+
+</script>
 {% endmacro %}
