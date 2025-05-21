@@ -3,6 +3,8 @@
 {% import 'components/balance-card.html' as card %}
 {% import "components/transaction_ui.html" as ui %}
 {% import "components/tabels.html" as tabel %}
+{% import "components/modal.html" as modal %}
+
 
 {% block head %}
 {{ super() }}
@@ -29,9 +31,17 @@
             <div class="container p-4 rounded-lg bg-gray-900 text-white">
                 {{ tabel.tables(transactions_by_date) }}
             </div>
+
         </div>
     </section>
 </main>
+<!-- <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" id="modal-backdrop">
+</div> -->
+<div id="crud-modal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 bg-black/50 ">
+    {{ modal.addNote() }}
+
+</div>
 {% block scripts %}
 <script src="{{ url_for('static', filename='JS/domManipulation.js') }}"></script>
 <script src="{{ url_for('static', filename='JS/ajax.js') }}"></script>
