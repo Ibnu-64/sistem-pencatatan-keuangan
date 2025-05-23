@@ -231,7 +231,7 @@
         let confirmCallback = null;
 
         // API Base URL
-        const API_BASE = 'http://localhost:5000/api';
+        //const API_BASE = 'http://localhost:5000/api';
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function () {
@@ -331,7 +331,7 @@
         // Load transactions
         async function loadTransactions() {
             try {
-                const response = await fetch(`${API_BASE}/transactions`);
+                const response = await fetch(`api/transactions`);
                 const transactions = await response.json();
 
                 console.log('Transactions loaded:', transactions);
@@ -344,7 +344,7 @@
 
         async function loadTransactionsMonthly() {
             try {
-                const response = await fetch(`${API_BASE}/monthly-summary`);
+                const response = await fetch(`api/monthly-summary`);
                 const transactions = await response.json();
 
                 console.log('Transactions monthly loaded:', transactions);
@@ -408,7 +408,7 @@
         // Load financial summary
         async function loadSummary() {
             try {
-                const response = await fetch(`${API_BASE}/summary`);
+                const response = await fetch(`api/summary`);
                 const summary = await response.json();
 
                 document.getElementById('income-display').textContent = `RP.${formatNumber(summary.total_income)},-`;
@@ -493,14 +493,14 @@
                 let response;
                 if (currentEditId) {
                     // Update existing transaction
-                    response = await fetch(`${API_BASE}/transactions/${currentEditId}`, {
+                    response = await fetch(`api/transactions/${currentEditId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(formData)
                     });
                 } else {
                     // Create new transaction
-                    response = await fetch(`${API_BASE}/transactions`, {
+                    response = await fetch(`api/transactions`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(formData)
@@ -524,7 +524,7 @@
         // Edit transaction
         async function editTransaction(id) {
             try {
-                const response = await fetch(`${API_BASE}/transactions/${id}`);
+                const response = await fetch(`api/transactions/${id}`);
                 const transaction = await response.json();
                 openModal('edit', transaction);
             } catch (error) {
@@ -536,7 +536,7 @@
         function deleteTransaction(id) {
             showConfirmModal('Apakah Anda yakin ingin menghapus transaksi ini?', async () => {
                 try {
-                    const response = await fetch(`${API_BASE}/transactions/${id}`, {
+                    const response = await fetch(`api/transactions/${id}`, {
                         method: 'DELETE'
                     });
 
@@ -556,7 +556,7 @@
 
         // Delete all transactions
         function deleteAllTransactions() {
-            fetch(`${API_BASE}/transactions`, { method: 'DELETE' })
+            fetch(`api/transactions`, { method: 'DELETE' })
                 .then(response => {
                     if (response.ok) {
                         loadTransactions();
