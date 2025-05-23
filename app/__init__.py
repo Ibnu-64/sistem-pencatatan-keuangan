@@ -1,10 +1,13 @@
 from flask import Flask
+from flask_cors import CORS
 
 # Import routes
-from .routes.index import index_bp
 
 def create_app():
     """Buat aplikasi Flask"""
     app = Flask(__name__)
-    app.register_blueprint(index_bp, url_prefix='/')
+    from .routes.index import index_bp
+    from .routes.get_transactions import get_transactions_bp
+    app.register_blueprint(index_bp)
+    app.register_blueprint(get_transactions_bp)
     return app

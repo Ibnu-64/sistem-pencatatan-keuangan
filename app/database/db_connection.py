@@ -8,7 +8,8 @@ def db_connection():
             host='localhost',
             user='root',
             password='',
-            database='financial_tracker'
+            database='financial_tracker',
+            autocommit=True
         )
         return connection
     except Error as e:
