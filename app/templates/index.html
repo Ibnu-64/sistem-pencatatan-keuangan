@@ -7,7 +7,7 @@
     <title>Pelacak Keuangan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.4.1/flowbite.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.4.1/flowbite.min.js"></script> -->
 </head>
 
 <body class="bg-[#0a1429] min-h-screen">
@@ -334,7 +334,6 @@
                 const response = await fetch(`api/transactions`);
                 const transactions = await response.json();
 
-                console.log('Transactions loaded:', transactions);
                 displayTransactions(transactions);
             } catch (error) {
                 console.error('Error loading transactions:', error);
@@ -425,15 +424,19 @@
         function updateChart(transactions) {
             const monthIndexMap = {
                 Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-                Jul: 6, Agist: 7, Sep: 8, Okt: 9, Nov: 10, Dec: 11
+                Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
             };
+
+            financialChart.data.datasets.forEach(dataset => dataset.data.fill(0));
+
             transactions.months.forEach((month, index) => {
                 const monthIndex = monthIndexMap[month];
-                if (index !== undefined) {
+                if (monthIndex !== undefined) {
                     financialChart.data.datasets[0].data[monthIndex] = transactions.income[index] || 0;
                     financialChart.data.datasets[1].data[monthIndex] = transactions.expense[index] || 0;
                 }
-            })
+            });
+
             financialChart.update();
         }
 
