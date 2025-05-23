@@ -5,7 +5,7 @@ from app.database.db_connection import db_connection
 get_transactions_by_id_bp = Blueprint('get_transactions_by_id', __name__)
 
 @get_transactions_by_id_bp.route('/api/transactions/<int:transaction_id>', methods=['GET'])
-def get_transaction_by_id(transaction_id):
+def get_transactions_by_id(transaction_id):
     """Mengambil data transaksi berdasarkan ID"""
     connection = db_connection()
     if connection is None:
@@ -24,7 +24,6 @@ def get_transaction_by_id(transaction_id):
         if transaction is None:
             return jsonify({'error': 'Transaction not found'}), 404
         
-        # Convert date to string for JSON serialization
         if transaction['date']:
             transaction['date'] = transaction['date'].isoformat()
         
