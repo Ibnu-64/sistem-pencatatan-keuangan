@@ -237,6 +237,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             initializeChart();
             loadTransactions();
+            loadTransactionsMonthly()
             loadSummary();
             setupEventListeners();
 
@@ -282,35 +283,28 @@
         }
 
         // Initialize chart
-        function initializeChart() {
+        function initializeChart(data) {
             const ctx = document.getElementById('financialChart').getContext('2d');
 
             financialChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agist', 'Sep', 'Okt', 'Nov', 'Des'],
                     datasets: [
                         {
                             label: 'Pendapatan',
-                            data: [0, 0, 0, 0, 0, 0],
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#70e3e8',
                             backgroundColor: 'transparent',
                             tension: 0.3
                         },
                         {
                             label: 'Pengeluaran',
-                            data: [0, 0, 0, 0, 0, 0],
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#26c9df',
                             backgroundColor: 'transparent',
                             tension: 0.3
                         },
-                        {
-                            label: 'Saldo',
-                            data: [0, 0, 0, 0, 0, 0],
-                            borderColor: 'white',
-                            backgroundColor: 'transparent',
-                            tension: 0.3
-                        }
                     ]
                 },
                 options: {
@@ -340,10 +334,23 @@
                 const response = await fetch(`${API_BASE}/transactions`);
                 const transactions = await response.json();
 
+                console.log('Transactions loaded:', transactions);
                 displayTransactions(transactions);
             } catch (error) {
                 console.error('Error loading transactions:', error);
                 showNoTransactions();
+            }
+        }
+
+        async function loadTransactionsMonthly() {
+            try {
+                const response = await fetch(`${API_BASE}/monthly-summary`);
+                const transactions = await response.json();
+
+                console.log('Transactions monthly loaded:', transactions);
+                updateChart(transactions);
+            } catch (error) {
+                console.error('Error loading transactions:', error);
             }
         }
 
@@ -408,8 +415,6 @@
                 document.getElementById('expense-display').textContent = `RP.${formatNumber(summary.total_expense)},-`;
                 document.getElementById('balance-display').textContent = `RP.${formatNumber(summary.balance)},-`;
 
-                // Update chart if needed
-                updateChart(summary);
 
             } catch (error) {
                 console.error('Error loading summary:', error);
@@ -417,15 +422,18 @@
         }
 
         // Update chart with summary data
-        function updateChart(summary) {
-            // This is a simple implementation - you can enhance it to show monthly data
-            const currentMonth = new Date().getMonth();
-            const data = [0, 0, 0, 0, 0, 0];
-            data[currentMonth] = summary.total_income;
-
-            financialChart.data.datasets[0].data = data;
-            financialChart.data.datasets[1].data[currentMonth] = summary.total_expense;
-            financialChart.data.datasets[2].data[currentMonth] = summary.balance;
+        function updateChart(transactions) {
+            const monthIndexMap = {
+                Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+                Jul: 6, Agist: 7, Sep: 8, Okt: 9, Nov: 10, Des: 11
+            };
+            transactions.months.forEach((month, index) => {
+                const monthIndex = monthIndexMap[month];
+                if (index !== undefined) {
+                    financialChart.data.datasets[0].data[monthIndex] = transactions.income[index] || 0;
+                    financialChart.data.datasets[1].data[monthIndex] = transactions.expense[index] || 0;
+                }
+            })
             financialChart.update();
         }
 
@@ -502,6 +510,7 @@
                 if (response.ok) {
                     closeModal();
                     loadTransactions();
+                    loadTransactionsMonthly();
                     loadSummary();
                 } else {
                     alert('Terjadi kesalahan saat menyimpan transaksi');
@@ -533,6 +542,7 @@
 
                     if (response.ok) {
                         loadTransactions();
+                        loadTransactionsMonthly();
                         loadSummary();
                     } else {
                         alert('Terjadi kesalahan saat menghapus transaksi');
@@ -550,6 +560,7 @@
                 .then(response => {
                     if (response.ok) {
                         loadTransactions();
+                        loadTransactionsMonthly();
                         loadSummary();
                     } else {
                         alert('Terjadi kesalahan saat menghapus semua transaksi');
