@@ -9,11 +9,12 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Database configuration
+# sudah di refactor
 DB_CONFIG = {
     'host': 'localhost',
     'database': 'financial_tracker',
     'user': 'root',
-    'password': ''  # Ganti dengan password MySQL Anda
+    'password': ''
 }
 
 def get_db_connection():
