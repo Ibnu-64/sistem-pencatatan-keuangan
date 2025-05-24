@@ -1,86 +1,59 @@
-CREATE DATABASE IF NOT EXISTS financial_tracker;
+CREATE DATABASE IF NOT EXISTS sistem_pencatatan_keuangan;
+USE sistem_pencatatan_keuangan;
 
-USE financial_tracker;
+-- Tabel tipe transaksi income atau expense
+CREATE TABLE IF NOT EXISTS transaction_types (
+    type_id ENUM('income', 'expense') PRIMARY KEY,
+    description VARCHAR(50) NOT NULL
+);
 
+INSERT INTO transaction_types (type_id, description) VALUES 
+    ('income', 'Pendapatan'),
+    ('expense', 'Pengeluaran');
 
--- TABLES transactions
+-- Tabel categories
+CREATE TABLE IF NOT EXISTS categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    type_id ENUM('income', 'expense') NOT NULL,
+    FOREIGN KEY (type_id) REFERENCES transaction_types(type_id)
+);
+
+-- Kategori default
+INSERT IGNORE INTO categories (name, type_id) VALUES
+    ('gaji', 'income'),
+    ('bonus', 'income'),
+    ('investasi', 'income'),
+    ('tunai', 'income'),
+    ('penjualan', 'income'),
+    ('setoran', 'income'),
+    ('lainnya', 'income'),
+    ('makanan', 'expense'),
+    ('minuman', 'expense'),
+    ('kesehatan', 'expense'),
+    ('transportasi', 'expense'),
+    ('hiburan', 'expense'),
+    ('game', 'expense'),
+    ('peliharan', 'expense'),
+    ('hobi', 'expense'),
+    ('belanja', 'expense');
+
+-- Tabel transactions
 CREATE TABLE IF NOT EXISTS transactions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    type ENUM('income', 'expense') NOT NULL,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    type_id ENUM('income', 'expense') NOT NULL,
     amount DECIMAL(15,2) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    category_id INT NOT NULL,
     description TEXT,
     date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    FOREIGN KEY (type_id) REFERENCES transaction_types(type_id),
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
 
+-- Tabel financial_summary tetap sama
 CREATE TABLE IF NOT EXISTS financial_summary (
     id INT PRIMARY KEY DEFAULT 1,
     total_income DECIMAL(15,2) DEFAULT 0,
     total_expense DECIMAL(15,2) DEFAULT 0,
-    balance DECIMAL(15,2) DEFAULT 0,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
-
-CREATE TRIGGER IF NOT EXISTS update_summary_after_insert
-AFTER INSERT ON transactions
-FOR EACH ROW
-BEGIN
-    DECLARE new_income DECIMAL(15,2) DEFAULT 0;
-    DECLARE new_expense DECIMAL(15,2) DEFAULT 0;
-    SELECT 
-        COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0),
-        COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0)
-    INTO new_income, new_expense
-    FROM transactions;
-    
-    UPDATE financial_summary 
-    SET 
-        total_income = new_income,
-        total_expense = new_expense,
-        balance = new_income - new_expense
-    WHERE id = 1;
-END
-
-CREATE TRIGGER IF NOT EXISTS update_summary_after_update
-AFTER UPDATE ON transactions
-FOR EACH ROW
-BEGIN
-    DECLARE new_income DECIMAL(15,2) DEFAULT 0;
-    DECLARE new_expense DECIMAL(15,2) DEFAULT 0;
-    
-    SELECT 
-        COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0),
-        COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0)
-    INTO new_income, new_expense
-    FROM transactions;
-    
-    UPDATE financial_summary 
-    SET 
-        total_income = new_income,
-        total_expense = new_expense,
-        balance = new_income - new_expense
-    WHERE id = 1;
-END
-
-CREATE TRIGGER IF NOT EXISTS update_summary_after_delete
-AFTER DELETE ON transactions
-FOR EACH ROW
-BEGIN
-    DECLARE new_income DECIMAL(15,2) DEFAULT 0;
-    DECLARE new_expense DECIMAL(15,2) DEFAULT 0;
-            
-    SELECT 
-        COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0),
-        COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0)
-    INTO new_income, new_expense
-    FROM transactions;
-            
-    UPDATE financial_summary 
-    SET 
-        total_income = new_income,
-        total_expense = new_expense,
-        balance = new_income - new_expense
-    WHERE id = 1;
-END
+    balance DECIMAL(15,2) DEFAULT 0
+);
