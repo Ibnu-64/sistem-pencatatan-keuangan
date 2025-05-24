@@ -222,23 +222,9 @@
     </div>
 </div>
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script>
-    // Global variables
-    let financialChart;
-    let currentEditId = null;
-    let confirmCallback = null;
 
-
-    // Initialize app
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeChart();
-        loadTransactions();
-        loadTransactionsMonthly()
-        loadSummary();
-        setupEventListeners();
-
-        document.getElementById('date').valueAsDate = new Date();
-    });
 
     // Setup event listeners
     function setupEventListeners() {
