@@ -42,21 +42,7 @@
 
     <!-- Graph Area -->
     <div class="bg-[#635985] rounded-lg p-4 mb-6">
-        <div class="mb-4 flex flex-wrap justify-center gap-6">
-            <div class="flex items-center">
-                <div class="w-4 h-4 rounded-full bg-[#70e3e8] mr-2"></div>
-                <span class="text-white">Pendapatan</span>
-            </div>
-            <div class="flex items-center">
-                <div class="w-4 h-4 rounded-full bg-[#26c9df] mr-2"></div>
-                <span class="text-white">Pengeluaran</span>
-            </div>
-            <div class="flex items-center">
-                <div class="w-4 h-4 rounded-full bg-white mr-2"></div>
-                <span class="text-white">Saldo</span>
-            </div>
-        </div>
-        <canvas id="financialChart" height="250"></canvas>
+        <canvas id="financialChart"></canvas>
     </div>
 
     <!-- Transaction History Section (Moved Below Chart) -->
@@ -110,7 +96,7 @@
 </div>
 
 <!-- Modal Tambah/Edit Transaksi -->
-<div id="transaction-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+<div id="transaction-modal" class=" fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full max-h-full inset-0 bg-black/50">
     <div class="bg-white dark:bg-[#2e3b5e] rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
         <!-- Modal header -->
         <div class="flex items-center justify-between mb-4 border-b border-gray-600 pb-4">
@@ -200,7 +186,7 @@
 </div>
 
 <!-- Modal Konfirmasi Hapus -->
-<div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+<div id="confirm-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
     <div class="bg-white dark:bg-[#2e3b5e] rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
         <div class="text-center">
             <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" fill="none" viewBox="0 0 20 20">

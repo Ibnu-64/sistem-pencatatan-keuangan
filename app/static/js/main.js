@@ -1,4 +1,5 @@
 // Global variables
+
 let financialChart;
 let currentEditId = null;
 let confirmCallback = null;
@@ -57,30 +58,40 @@ function initializeChart(data) {
     const ctx = document.getElementById('financialChart').getContext('2d');
 
     financialChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agist', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [
                 {
                     label: 'Pendapatan',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    borderColor: '#70e3e8',
-                    backgroundColor: 'transparent',
-                    tension: 0.3
+                    backgroundColor: '#82cdff',
+                    borderColor: '#059bff',
+                    borderWidth: 2,
+                    borderSkipped: false,
+                    borderRadius: 5
                 },
                 {
                     label: 'Pengeluaran',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    borderColor: '#26c9df',
-                    backgroundColor: 'transparent',
-                    tension: 0.3
+                    backgroundColor: '#ffa0b4',
+                    borderColor: '#ff6888',
+                    borderWidth: 2,
+                    borderSkipped: false,
+                    borderRadius: 5
                 },
             ]
         },
         options: {
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    labels: {
+                        color: 'white',
+                        font: {
+                            size: 14
+                        }
+                    }
                 }
             },
             scales: {
@@ -230,14 +241,24 @@ function openModal(mode, transaction = null) {
         currentEditId = transaction.id;
     }
 
-    modal.classList.remove('hidden');
+    modal.classList.remove("invisible", "opacity-0");
+    modal.classList.add("visible", "opacity-100");
 }
 
 // Close modal
 function closeModal() {
-    document.getElementById('transaction-modal').classList.add('hidden');
-    document.getElementById('transaction-form').reset();
-    currentEditId = null;
+    const modal = document.getElementById('transaction-modal');
+    modal.classList.remove("opacity-100");
+    modal.classList.add("opacity-0");
+
+    // Tunggu transisi selesai, baru sembunyikan dari interaksi
+    setTimeout(() => {
+        document.getElementById('transaction-form').reset();
+        modal.classList.remove("visible");
+        modal.classList.add("invisible");
+        currentEditId = null;
+    }, 300); // sama dengan duration-300
+
 }
 
 // Fill form with transaction data
