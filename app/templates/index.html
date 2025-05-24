@@ -228,8 +228,6 @@
     let currentEditId = null;
     let confirmCallback = null;
 
-    // API Base URL
-    //const API_BASE = 'http://localhost:5000/api';
 
     // Initialize app
     document.addEventListener('DOMContentLoaded', function () {
@@ -239,7 +237,6 @@
         loadSummary();
         setupEventListeners();
 
-        // Set today's date as default
         document.getElementById('date').valueAsDate = new Date();
     });
 
