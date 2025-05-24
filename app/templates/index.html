@@ -222,8 +222,60 @@
     </div>
 </div>
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script>
+    // Global variables
+    let financialChart;
+    let currentEditId = null;
+    let confirmCallback = null;
+
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeChart();
+        loadTransactions();
+        loadTransactionsMonthly()
+        loadSummary();
+        setupEventListeners();
+
+        document.getElementById('date').valueAsDate = new Date();
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // Add transaction button
+        document.getElementById('add-transaction-btn').addEventListener('click', () => {
+            openModal('add');
+        });
+
+        // Delete all button
+        document.getElementById('delete-all-btn').addEventListener('click', () => {
+            showConfirmModal('Apakah Anda yakin ingin menghapus semua data transaksi?', deleteAllTransactions);
+        });
+
+        // Close modal buttons
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+        document.getElementById('confirm-no').addEventListener('click', closeConfirmModal);
+
+        // Form submit
+        document.getElementById('transaction-form').addEventListener('submit', handleFormSubmit);
+
+        // Confirm modal
+        document.getElementById('confirm-yes').addEventListener('click', () => {
+            if (confirmCallback) {
+                confirmCallback();
+            }
+            closeConfirmModal();
+        });
+
+        // Close modals when clicking outside
+        document.getElementById('transaction-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        document.getElementById('confirm-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeConfirmModal();
+        });
+    }
 
     // Initialize chart
     function initializeChart(data) {
