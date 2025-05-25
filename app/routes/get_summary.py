@@ -11,41 +11,23 @@ def get_summary():
     if connection is None:
         return jsonify({'error': 'Database connection failed'}), 500
     
-    cursor = connection.cursor(dictionary=True)
-    
     try:
-        cursor.execute("""
-            SELECT total_income, total_expense, balance 
-            FROM financial_summary 
-            WHERE id = 1
-        """)
-        summary = cursor.fetchone()
         
-        if summary is None:
-            # Jika tidak ada record summary, hitung manual
+        with connection.cursor(dictionary=True) as cursor:
             cursor.execute("""
-                SELECT 
-                    COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) as total_income,
-                    COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) as total_expense
-                FROM transactions
+                SELECT total_income, total_expense, balance 
+                FROM financial_summary 
+                WHERE id = 1
             """)
-            result = cursor.fetchone()
-            summary = {
-                'total_income': float(result['total_income']),
-                'total_expense': float(result['total_expense']),
-                'balance': float(result['total_income']) - float(result['total_expense'])
-            }
-        else:
-            summary = {
-                'total_income': float(summary['total_income']),
-                'total_expense': float(summary['total_expense']),
-                'balance': float(summary['balance'])
-            }
+            summary = cursor.fetchone()
+            
+            if summary is None:
+                return jsonify({'error': 'Summary not found'}), 404
+        
         
         return jsonify(summary)
         
     except Error as e:
         return jsonify({'error': str(e)}), 500
     finally:
-        cursor.close()
         connection.close()
