@@ -12,15 +12,28 @@ def get_transactions():
     if connection is None:
         return jsonify({'error': 'Database connection failed'}), 500
     
-    cursor = connection.cursor(dictionary=True) # buka koneksi ke database
     
     try:
-        cursor.execute("""
-            SELECT id, type, amount, category, description, date 
-            FROM transactions 
-            ORDER BY date DESC, created_at DESC
-        """)
-        transactions = cursor.fetchall()
+        
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("""
+                SELECT 
+                    t.id,
+                    t.amount,
+                    t.date,
+                    c.name AS category_name,
+                    tt.description AS type_description,
+                    t.description
+                FROM 
+                    transactions t
+                JOIN 
+                    categories c ON t.category_id = c.category_id
+                JOIN 
+                    transaction_types tt ON t.type_id = tt.type_id
+                ORDER BY 
+                    t.date DESC
+            """)
+            transactions = cursor.fetchall()
         
         # convert date to ISO format
         for transaction in transactions:
@@ -31,6 +44,4 @@ def get_transactions():
     except Error as e:
         return jsonify({'error': str(e)}), 500
     finally:
-        # setelah selesai, tutup koneksi
-        cursor.close()
         connection.close()

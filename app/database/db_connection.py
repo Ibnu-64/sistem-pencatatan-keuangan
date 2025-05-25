@@ -8,7 +8,7 @@ def db_connection():
             host='localhost',
             user='root',
             password='',
-            database='financial_tracker',
+            database='sistem_pencatatan_keuangan',
             autocommit=True
         )
         return connection

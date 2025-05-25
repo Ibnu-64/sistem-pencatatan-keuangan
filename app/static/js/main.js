@@ -157,7 +157,7 @@ function displayTransactions(transactions) {
         row.innerHTML = `
                     <td class="py-2 px-3">${formatDate(transaction.date)}</td>
                     <td class="py-2 px-3 ${typeClass}">${typeText}</td>
-                    <td class="py-2 px-3 capitalize">${transaction.category}</td>
+                    <td class="py-2 px-3 capitalize">${transaction.category_name}</td>
                     <td class="py-2 px-3">Rp ${formatNumber(transaction.amount)}</td>
                     <td class="py-2 px-3">${transaction.description || '-'}</td>
                     <td class="py-2 px-3">
@@ -273,7 +273,7 @@ function fillFormWithTransaction(transaction) {
 
 // Handle form submit
 async function handleFormSubmit(e) {
-    e.preventDefault();
+    e.preventDefault(); //cegah reload halaman
 
     const formData = {
         type: document.getElementById('transaction-type').value,
@@ -282,6 +282,7 @@ async function handleFormSubmit(e) {
         date: document.getElementById('date').value,
         description: document.getElementById('description').value
     };
+
 
     try {
         let response;
