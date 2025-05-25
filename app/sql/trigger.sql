@@ -81,3 +81,6 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- Tambahkan data awal ke financial_summary
+INSERT INTO financial_summary (id, total_income, total_expense) VALUES (1, 0, 0)
+ON DUPLICATE KEY UPDATE id = id;
