@@ -34,7 +34,7 @@ INSERT IGNORE INTO categories (name, type_id) VALUES
     ('transportasi', 'expense'),
     ('hiburan', 'expense'),
     ('game', 'expense'),
-    ('peliharan', 'expense'),
+    ('peliharaan', 'expense'),
     ('hobi', 'expense'),
     ('belanja', 'expense');
 
