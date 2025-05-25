@@ -14,12 +14,15 @@ def add_transactions():
 
     try:
         data = request.get_json()
+        
+        category_id = int(data['category'])
 
         # Validasi field yang diperlukan
         required_fields = ['type', 'amount', 'category', 'date']
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Field {field} is required'}), 422
+            
 
         # Validasi type
         if data['type'] not in ['income', 'expense']:
@@ -41,23 +44,21 @@ def add_transactions():
 
         with connection.cursor() as cursor:
             query = """
-                INSERT INTO transactions (type, amount, category, description, date)
+                INSERT INTO transactions (type_id, amount, category_id, description, date)
                 VALUES (%s, %s, %s, %s, %s)
             """
             values = (
                 data['type'],
                 amount,
-                data['category'],
+                category_id,
                 data.get('description', ''),
                 data['date']
             )
             cursor.execute(query, values)
             connection.commit()
-            transaction_id = cursor.lastrowid
 
         return jsonify({
             'message': 'Transaction added successfully',
-            'id': transaction_id
         }), 201
 
     except Error as e:

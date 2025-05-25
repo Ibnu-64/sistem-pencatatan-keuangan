@@ -137,7 +137,6 @@ async function loadTransactionsMonthly() {
 // Display transactions in table
 function displayTransactions(transactions) {
     const tbody = document.getElementById('transaction-tbody');
-    const noTransactions = document.getElementById('no-transactions');
 
     if (transactions.length === 0) {
         showNoTransactions();
@@ -161,17 +160,17 @@ function displayTransactions(transactions) {
                     <td class="py-2 px-3">Rp ${formatNumber(transaction.amount)}</td>
                     <td class="py-2 px-3">${transaction.description || '-'}</td>
                     <td class="py-2 px-3">
-                        <button onclick="editTransaction(${transaction.id})" 
+                        <button onclick="editTransaction('${transaction.id}')" 
                             class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs mr-1">
                             Edit
                         </button>
-                        <button onclick="deleteTransaction(${transaction.id})" 
+                        <button onclick="deleteTransaction('${transaction.id}')" 
                             class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">
                             Hapus
                         </button>
                     </td>
                 `;
-
+        console.log(row.innerHTML);
         tbody.appendChild(row);
     });
 }
@@ -277,11 +276,12 @@ async function handleFormSubmit(e) {
 
     const formData = {
         type: document.getElementById('transaction-type').value,
-        amount: parseFloat(document.getElementById('amount').value),
+        amount: parseInt(document.getElementById('amount').value, 10),
         category: document.getElementById('category').value,
         date: document.getElementById('date').value,
         description: document.getElementById('description').value
     };
+
 
 
     try {
@@ -329,6 +329,7 @@ async function editTransaction(id) {
 
 // Delete transaction
 function deleteTransaction(id) {
+    console.log('Deleting transaction with ID:', id);
     showConfirmModal('Apakah Anda yakin ingin menghapus transaksi ini?', async () => {
         try {
             const response = await fetch(`api/transactions/${id}`, {
