@@ -11,17 +11,18 @@ def delete_transactions(transaction_id):
     if connection is None:
         return jsonify({'error': 'Database connection failed'}), 500
     
-    cursor = connection.cursor()
     
     try:
-        # Cek apakah transaksi ada
-        cursor.execute("SELECT id FROM transactions WHERE id = %s", (transaction_id,))
-        if cursor.fetchone() is None:
-            return jsonify({'error': 'Transaction not found'}), 404
         
-        # Hapus transaksi
-        cursor.execute("DELETE FROM transactions WHERE id = %s", (transaction_id,))
-        connection.commit()
+        with connection.cursor() as cursor:
+            # Cek apakah transaksi ada
+            cursor.execute("SELECT id FROM transactions WHERE id = %s", (transaction_id,))
+            if cursor.fetchone() is None:
+                return jsonify({'error': 'Transaction not found'}), 404
+            
+            # Hapus transaksi
+            cursor.execute("DELETE FROM transactions WHERE id = %s", (transaction_id,))
+            connection.commit()
         
         return jsonify({'message': 'Transaction deleted successfully'})
         
@@ -29,5 +30,4 @@ def delete_transactions(transaction_id):
         connection.rollback()
         return jsonify({'error': str(e)}), 500
     finally:
-        cursor.close()
         connection.close()

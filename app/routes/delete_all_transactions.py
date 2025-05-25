@@ -11,11 +11,12 @@ def delete_all_transactions():
     if connection is None:
         return jsonify({'error': 'Database connection failed'}), 500
     
-    cursor = connection.cursor()
     
     try:
-        cursor.execute("DELETE FROM transactions")
-        connection.commit()
+        
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM transactions")
+            connection.commit()
         
         return jsonify({'message': 'All transactions deleted successfully'})
         

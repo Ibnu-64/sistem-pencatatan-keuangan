@@ -137,6 +137,7 @@ async function loadTransactionsMonthly() {
 // Display transactions in table
 function displayTransactions(transactions) {
     const tbody = document.getElementById('transaction-tbody');
+    const noTransactions = document.getElementById('no-transactions');
 
     if (transactions.length === 0) {
         showNoTransactions();
