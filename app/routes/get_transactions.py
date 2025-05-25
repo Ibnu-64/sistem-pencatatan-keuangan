@@ -19,6 +19,7 @@ def get_transactions():
             cursor.execute("""
                 SELECT 
                     t.id,
+                    t.type_id,
                     t.amount,
                     t.date,
                     c.name AS category_name,

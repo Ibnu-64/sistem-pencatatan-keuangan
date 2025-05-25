@@ -144,14 +144,15 @@ function displayTransactions(transactions) {
     }
 
     tbody.innerHTML = '';
+    console.log('Transactions:', transactions);
     noTransactions.classList.add('hidden');
 
     transactions.forEach(transaction => {
         const row = document.createElement('tr');
         row.className = 'border-b border-gray-600 hover:bg-gray-700';
 
-        const typeClass = transaction.type === 'income' ? 'text-green-400' : 'text-red-400';
-        const typeText = transaction.type === 'income' ? 'Masuk' : 'Keluar';
+        const typeClass = transaction.type_id === 'income' ? 'text-green-400' : 'text-red-400';
+        const typeText = transaction.type_id === 'income' ? 'Masuk' : 'Keluar';
 
         row.innerHTML = `
                     <td class="py-2 px-3">${formatDate(transaction.date)}</td>
