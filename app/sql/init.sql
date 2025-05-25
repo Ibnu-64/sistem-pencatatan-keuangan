@@ -55,5 +55,5 @@ CREATE TABLE IF NOT EXISTS financial_summary (
     id INT PRIMARY KEY DEFAULT 1,
     total_income DECIMAL(15,2) DEFAULT 0,
     total_expense DECIMAL(15,2) DEFAULT 0,
-    balance DECIMAL(15,2) DEFAULT 0
+    balance DECIMAL(15,2) GENERATED ALWAYS AS (total_income - total_expense) STORED
 );
