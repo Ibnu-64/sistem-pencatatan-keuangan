@@ -20,8 +20,8 @@ def get_monthly_summary():
         cursor.execute("""
             SELECT 
                 DATE_FORMAT(date, '%Y-%m') as month,
-                SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income,
-                SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense
+                SUM(CASE WHEN type_id = 'income' THEN amount ELSE 0 END) as income,
+                SUM(CASE WHEN type_id = 'expense' THEN amount ELSE 0 END) as expense
             FROM transactions 
             WHERE date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
             GROUP BY DATE_FORMAT(date, '%Y-%m')
