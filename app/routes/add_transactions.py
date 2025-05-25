@@ -15,7 +15,6 @@ def add_transactions():
     try:
         data = request.get_json()
         
-        category_id = int(data['category'])
 
         # Validasi field yang diperlukan
         required_fields = ['type', 'amount', 'category', 'date']
@@ -43,6 +42,9 @@ def add_transactions():
             return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 422
 
         with connection.cursor() as cursor:
+            
+            
+            
             query = """
                 INSERT INTO transactions (type_id, amount, category_id, description, date)
                 VALUES (%s, %s, %s, %s, %s)
@@ -50,7 +52,7 @@ def add_transactions():
             values = (
                 data['type'],
                 amount,
-                category_id,
+                data['category'],
                 data.get('description', ''),
                 data['date']
             )

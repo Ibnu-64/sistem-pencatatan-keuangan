@@ -127,7 +127,6 @@ async function loadTransactionsMonthly() {
         const response = await fetch(`api/monthly-summary`);
         const transactions = await response.json();
 
-        console.log('Transactions monthly loaded:', transactions);
         updateChart(transactions);
     } catch (error) {
         console.error('Error loading transactions:', error);
@@ -171,7 +170,6 @@ function displayTransactions(transactions) {
                         </button>
                     </td>
                 `;
-        console.log(row.innerHTML);
         tbody.appendChild(row);
     });
 }
@@ -278,10 +276,12 @@ async function handleFormSubmit(e) {
     const formData = {
         type: document.getElementById('transaction-type').value,
         amount: parseInt(document.getElementById('amount').value, 10),
-        category: document.getElementById('category').value,
+        category: parseInt(document.getElementById('category').value),
         date: document.getElementById('date').value,
         description: document.getElementById('description').value
     };
+
+    console.log('Form data:', formData);
 
 
 
@@ -330,7 +330,6 @@ async function editTransaction(id) {
 
 // Delete transaction
 function deleteTransaction(id) {
-    console.log('Deleting transaction with ID:', id);
     showConfirmModal('Apakah Anda yakin ingin menghapus transaksi ini?', async () => {
         try {
             const response = await fetch(`api/transactions/${id}`, {
