@@ -144,7 +144,6 @@ function displayTransactions(transactions) {
     }
 
     tbody.innerHTML = '';
-    console.log('Transactions:', transactions);
     noTransactions.classList.add('hidden');
 
     transactions.forEach(transaction => {
@@ -263,11 +262,11 @@ function closeModal() {
 // Fill form with transaction data
 function fillFormWithTransaction(transaction) {
     document.getElementById('transaction-id').value = transaction.id;
-    document.getElementById('transaction-type').value = transaction.type;
+    document.getElementById('transaction-type').value = transaction.type_id;
     document.getElementById('amount').value = transaction.amount;
-    document.getElementById('category').value = transaction.category;
-    document.getElementById('date').value = transaction.date;
+    document.getElementById('category').value = transaction.category_id;
     document.getElementById('description').value = transaction.description || '';
+    document.getElementById('date').value = transaction.date;
 }
 
 // Handle form submit
@@ -282,7 +281,6 @@ async function handleFormSubmit(e) {
         description: document.getElementById('description').value
     };
 
-    console.log('Form data:', formData);
 
 
 
