@@ -96,7 +96,7 @@
 </div>
 
 <!-- Modal Tambah/Edit Transaksi -->
-<div id="transaction-modal" class=" fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full max-h-full inset-0 bg-black/50">
+<div id="backdrop" class=" fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full max-h-full inset-0 bg-black/50">
     <div class="bg-white dark:bg-[#2e3b5e] rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
         <!-- Modal header -->
         <div class="flex items-center justify-between mb-4 border-b border-gray-600 pb-4">
@@ -215,10 +215,9 @@
         </div>
     </div>
 </div>
-<div id="backdrop" tabindex="-1" aria-hidden="true"
+<!-- <div id="backdrop" tabindex="-1" aria-hidden="true"
     class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 bg-black/50 ">
-    {{ modal.transactions() }}
-</div>
+</div> -->
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
