@@ -44,7 +44,7 @@ function setupEventListeners() {
     });
 
     // Close modals when clicking outside
-    document.getElementById('transaction-modal').addEventListener('click', (e) => {
+    document.getElementById('backdrop').addEventListener('click', (e) => {
         if (e.target === e.currentTarget) closeModal();
     });
 
@@ -221,7 +221,7 @@ function updateChart(transactions) {
 
 // Open modal for add/edit
 function openModal(mode, transaction = null) {
-    const modal = document.getElementById('transaction-modal');
+    const backdrop = document.getElementById('backdrop');
     const title = document.getElementById('modal-title');
     const submitBtn = document.getElementById('submit-btn-text');
 
@@ -239,13 +239,13 @@ function openModal(mode, transaction = null) {
         currentEditId = transaction.id;
     }
 
-    modal.classList.remove("invisible", "opacity-0");
-    modal.classList.add("visible", "opacity-100");
+    backdrop.classList.remove("invisible", "opacity-0");
+    backdrop.classList.add("visible", "opacity-100");
 }
 
 // Close modal
 function closeModal() {
-    const modal = document.getElementById('transaction-modal');
+    const modal = document.getElementById('backdrop');
     modal.classList.remove("opacity-100");
     modal.classList.add("opacity-0");
 
