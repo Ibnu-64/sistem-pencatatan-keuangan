@@ -11,6 +11,7 @@ from .routes.delete_transactions import delete_transactions_bp
 from .routes.delete_all_transactions import delete_all_transactions_bp
 from .routes.get_summary import get_summary_bp
 from .routes.get_monthly_summary import get_monthly_summary_bp
+from .routes.get_category import get_category_bp
 
 def create_app():
     """Buat aplikasi Flask"""
@@ -26,5 +27,6 @@ def create_app():
     app.register_blueprint(delete_all_transactions_bp)
     app.register_blueprint(get_summary_bp)
     app.register_blueprint(get_monthly_summary_bp)
+    app.register_blueprint(get_category_bp)
     
     return app
