@@ -32,5 +32,4 @@ def get_transactions_by_id(transaction_id):
     except Error as e:
         return jsonify({'error': str(e)}), 500
     finally:
-        cursor.close()
         connection.close()
