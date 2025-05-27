@@ -292,11 +292,17 @@ function closeModal() {
 // Fill form with transaction data
 function fillFormWithTransaction(transaction) {
     document.getElementById('transaction-id').value = transaction.id;
-    document.getElementById('transaction-type').value = transaction.type_id;
     document.getElementById('amount').value = transaction.amount;
     document.getElementById('category').value = transaction.category_id;
     document.getElementById('description').value = transaction.description || '';
     document.getElementById('date').value = transaction.date;
+
+    document.querySelectorAll('.transaction-type-btn').forEach(b => b.setAttribute('data-active', 'false'));
+    document.querySelector(`[data-type="${transaction.type_id}"]`).setAttribute('data-active', 'true');
+
+    // Update state dan kategori
+    currentType = transaction.type_id;
+    updateCategories(transaction.type_id);
 }
 
 // Handle form submit
