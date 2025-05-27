@@ -80,7 +80,7 @@ function initializeChart(data) {
     financialChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agist', 'Sep', 'Okt', 'Nov', 'Des'],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [
                 {
                     label: 'Pendapatan',
