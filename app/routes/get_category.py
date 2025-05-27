@@ -12,10 +12,9 @@ def get_categories(type_id):
     try:
         with connection.cursor(dictionary=True) as cursor:
             cursor.execute("SELECT category_id, name FROM categories WHERE type_id = %s", (type_id,))
-            if cursor.fetchone() is None:
-                return jsonify({'error': 'No categories found for this type'}), 404
-            
             categories = cursor.fetchall()
+            if not categories:
+                return jsonify({'error': 'No categories found for this type'}), 404
         return jsonify(categories)
     except Error as e:
         return jsonify({'error': str(e)}), 500
