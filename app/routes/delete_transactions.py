@@ -13,7 +13,6 @@ def delete_transactions(transaction_id):
     
     
     try:
-        
         with connection.cursor() as cursor:
             # Cek apakah transaksi ada
             cursor.execute("SELECT id FROM transactions WHERE id = %s", (transaction_id,))

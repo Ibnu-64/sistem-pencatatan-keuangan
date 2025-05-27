@@ -3,7 +3,7 @@
 let financialChart;
 let currentEditId = null;
 let confirmCallback = null;
-
+let currentType = 'income';
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function () {
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadTransactionsMonthly()
     loadSummary();
     setupEventListeners();
+    updateCategories(currentType)
 
     document.getElementById('date').valueAsDate = new Date();
 });
@@ -42,6 +43,25 @@ function setupEventListeners() {
         }
         closeConfirmModal();
     });
+
+    document.querySelectorAll('.transaction-type-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const type = this.dataset.type;
+            console.log('Selected type:', type);
+            // Skip jika type sama dengan yang aktif
+            if (type === currentType) return;
+
+            // Update UI
+            document.querySelectorAll('.transaction-type-btn').forEach(b => {
+                b.dataset.active = (b === this).toString();
+            });
+
+            // Update state dan kategori
+            currentType = type;
+            updateCategories(type);
+        });
+    });
+
 
     // Close modals when clicking outside
     document.getElementById('backdrop').addEventListener('click', (e) => {
@@ -225,6 +245,11 @@ function openModal(mode, transaction = null) {
     const title = document.getElementById('modal-title');
     const submitBtn = document.getElementById('submit-btn-text');
 
+    // pastikan semua modal tersembunyi dengan class hidden
+    document.querySelectorAll(".modal").forEach((modal) => {
+        modal.classList.add("hidden");
+    });
+
     if (mode === 'add') {
         title.textContent = 'Tambah Transaksi Baru';
         submitBtn.textContent = 'Simpan Transaksi';
@@ -238,6 +263,11 @@ function openModal(mode, transaction = null) {
         fillFormWithTransaction(transaction);
         currentEditId = transaction.id;
     }
+
+    // Tampilkan modal yang sesuai
+    document
+        .querySelector(`.modal[data-modal="transaction-modal"]`)
+        .classList.remove("hidden");
 
     backdrop.classList.remove("invisible", "opacity-0");
     backdrop.classList.add("visible", "opacity-100");
@@ -274,7 +304,7 @@ async function handleFormSubmit(e) {
     e.preventDefault(); //cegah reload halaman
 
     const formData = {
-        type: document.getElementById('transaction-type').value,
+        type: currentType,
         amount: parseInt(document.getElementById('amount').value, 10),
         category: parseInt(document.getElementById('category').value),
         date: document.getElementById('date').value,
@@ -364,6 +394,32 @@ function deleteAllTransactions() {
         .catch(error => {
             console.error('Error deleting all transactions:', error);
             alert('Terjadi kesalahan saat menghapus semua transaksi');
+        });
+}
+
+function updateCategories(type) {
+    const categorySelect = document.getElementById('category');
+
+    // Reset dropdown
+    categorySelect.innerHTML = '<option value="">Loading...</option>';
+    categorySelect.disabled = true;
+
+    // Fetch kategori berdasarkan type
+    fetch(`/api/categories/${type}`)
+        .then(response => response.json())
+        .then(categories => {
+            categorySelect.innerHTML = '<option value="">Pilih kategori</option>';
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.category_id;
+                option.textContent = cat.name;
+                categorySelect.appendChild(option);
+            });
+            categorySelect.disabled = false;
+        })
+        .catch(error => {
+            categorySelect.innerHTML = '<option value="">Gagal memuat kategori</option>';
+            console.error('Error:', error);
         });
 }
 
