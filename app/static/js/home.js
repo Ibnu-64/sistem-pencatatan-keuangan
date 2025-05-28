@@ -1,20 +1,17 @@
 
 // Global variables
-
-const { act } = require("react");
-
 let financialChart;
 let currentEditId = null;
 let confirmCallback = null;
 let currentType = 'income';
 
 // Initialize app
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     setupEventListeners();
     initializeChart();
-    loadTransactions();
-    loadTransactionsMonthly()
-    loadSummary();
+    await loadTransactions();
+    await loadTransactionsMonthly()
+    await loadSummary();
     updateCategories(currentType)
 
     document.getElementById('date').valueAsDate = new Date();
@@ -76,6 +73,35 @@ function setupEventListeners() {
     });
 }
 
+function setupDynamicEventListeners() {
+        document.addEventListener("click", function (event) {
+        const isMenuButton = event.target.closest(".actions-menu-button");
+        if (isMenuButton) {
+            const menu = isMenuButton.nextElementSibling;
+            const isOpen = !menu.classList.contains("hidden");
+
+            document.querySelectorAll(".actions-menu").forEach((item) => {
+                item.classList.add("hidden");
+                item.previousElementSibling.setAttribute("aria-expanded", "false");
+            });
+
+            if (!isOpen) {
+                menu.classList.remove("hidden");
+                menu.classList.add("block");
+                isMenuButton.setAttribute("aria-expanded", "true");
+            }
+
+            return; // penting: hentikan jika klik berasal dari tombol
+        }
+
+        // Klik di luar menu mana pun
+        document.querySelectorAll(".actions-menu").forEach((menu) => {
+            menu.classList.add("hidden");
+            menu.classList.remove("block");
+            menu.previousElementSibling.setAttribute("aria-expanded", "false");
+        });
+    });
+}
 
 
 // Initialize chart
@@ -143,7 +169,7 @@ async function loadTransactions() {
         const transactions = await response.json();
 
         displayTransactions(transactions);
-        actionMenuHandler();
+        setupDynamicEventListeners();
     } catch (error) {
         console.error('Error loading transactions:', error);
         showNoTransactions();
@@ -235,80 +261,6 @@ function displayTransactions(transactions) {
                 </tr>
                 `;
         tbody.appendChild(row);
-    });
-}
-
-function actionMenuHandler() {
-    const menuButtons = document.querySelectorAll(".actions-menu-button"); // Ambil setiap tombol menu
-    const menuItems = document.querySelectorAll(".actions-menu"); // Ambil setiap item menu
-
-
-    console.log("Menu buttons:", menuButtons);
-    menuButtons.forEach((menuButton) => {
-        menuButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            const menu = menuButton.nextElementSibling;
-            const isOpen = !menu.classList.contains("hidden");
-
-            // Tutup semua de
-            menuItems.forEach((item) => {
-                item.classList.add("hidden");
-                item.previousElementSibling.setAttribute("aria-expanded", "false");
-            });
-
-            // Buka menu yang diklik
-            if (!isOpen) {
-                menu.classList.remove("hidden");
-                menu.classList.add("block");
-                menuButton.setAttribute("aria-expanded", "true");
-            }
-        });
-    });
-
-    document.addEventListener("click", function (event) {
-        let clickedInsideAnyMenu = false;
-
-        menuButtons.forEach((btn) => {
-            const menu = btn.nextElementSibling;
-            if (btn.contains(event.target) || menu.contains(event.target)) {
-                clickedInsideAnyMenu = true;
-            }
-        });
-
-        if (!clickedInsideAnyMenu) {
-            menuItems.forEach((menu) => {
-                menu.classList.add("hidden");
-                menu.classList.remove("block");
-                menu.previousElementSibling.setAttribute("aria-expanded", "false");
-            });
-        }
-    });
-
-    menuItems.forEach((menu) => {
-        const actionList = menu.querySelectorAll("button");
-
-        actionList.forEach((btn) => {
-            const action = btn.dataset.action;
-
-            if (action === "edit") {
-                btn.addEventListener("click", function () {
-                    hideMenuAction();
-
-                });
-            } else if (action === "delete") {
-                btn.addEventListener("click", function () {
-                    hideMenuAction();
-                });
-            }
-        });
-    });
-}
-
-function hideMenuAction() {
-    menuItems.forEach((menu) => {
-        menu.classList.add("hidden");
-        menu.classList.remove("block");
-        menu.previousElementSibling.setAttribute("aria-expanded", "false");
     });
 }
 
