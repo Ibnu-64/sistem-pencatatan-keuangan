@@ -47,7 +47,6 @@ function setupEventListeners() {
     document.querySelectorAll('.transaction-type-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             const type = this.dataset.type;
-            console.log('Selected type:', type);
             // Skip jika type sama dengan yang aktif
             if (type === currentType) return;
 
@@ -251,6 +250,7 @@ function openModal(mode, transaction = null) {
     });
 
     if (mode === 'add') {
+        updateCategories("income");
         title.textContent = 'Tambah Transaksi Baru';
         submitBtn.textContent = 'Simpan Transaksi';
         document.getElementById('transaction-form').reset();
@@ -292,8 +292,8 @@ function closeModal() {
 // Fill form with transaction data
 function fillFormWithTransaction(transaction) {
     document.getElementById('transaction-id').value = transaction.id;
-    document.getElementById('amount').value = transaction.amount;
-    document.getElementById('category').value = transaction.category_id;
+    document.getElementById('amount').value = parseInt(transaction.amount, 10) || '';
+    document.getElementById('category').value = transaction.category_id || '';
     document.getElementById('description').value = transaction.description || '';
     document.getElementById('date').value = transaction.date;
 
@@ -302,7 +302,7 @@ function fillFormWithTransaction(transaction) {
 
     // Update state dan kategori
     currentType = transaction.type_id;
-    updateCategories(transaction.type_id);
+    updateCategories(transaction.type_id, transaction.category_id);
 }
 
 // Handle form submit
@@ -403,7 +403,7 @@ function deleteAllTransactions() {
         });
 }
 
-function updateCategories(type) {
+function updateCategories(type, selectedCategoryId = null) {
     const categorySelect = document.getElementById('category');
 
     // Reset dropdown
@@ -414,7 +414,9 @@ function updateCategories(type) {
     fetch(`/api/categories/${type}`)
         .then(response => response.json())
         .then(categories => {
-            categorySelect.innerHTML = '<option value="">Pilih kategori</option>';
+            categorySelect.innerHTML = selectedCategoryId ?
+                `<option value="${selectedCategoryId}" selected>${categories.find(item => item.category_id === selectedCategoryId).name}</option>` :
+                '<option value="">Pilih Kategori</option>';
             categories.forEach(cat => {
                 const option = document.createElement('option');
                 option.value = cat.category_id;

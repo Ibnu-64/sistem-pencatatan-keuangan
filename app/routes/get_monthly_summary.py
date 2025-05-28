@@ -23,9 +23,9 @@ def get_monthly_summary():
                 SUM(CASE WHEN type_id = 'income' THEN amount ELSE 0 END) as income,
                 SUM(CASE WHEN type_id = 'expense' THEN amount ELSE 0 END) as expense
             FROM transactions 
-            WHERE date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            WHERE date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
             GROUP BY DATE_FORMAT(date, '%Y-%m')
-            ORDER BY month
+            ORDER BY month;
         """)
         
         monthly_data = cursor.fetchall()
