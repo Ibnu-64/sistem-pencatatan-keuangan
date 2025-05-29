@@ -485,6 +485,7 @@ async function handleFormSubmit(e) {
             loadTransactions();
             loadTransactionsMonthly();
             loadSummary();
+            setupDynamicEventListeners()
         } else {
             alert('Terjadi kesalahan saat menyimpan transaksi');
         }
@@ -500,6 +501,7 @@ async function editTransaction(id) {
         const response = await fetch(`api/transactions/${id}`);
         const transaction = await response.json();
         openModal('edit', transaction);
+
     } catch (error) {
         console.error('Error loading transaction:', error);
     }
@@ -517,6 +519,7 @@ function deleteTransaction(id) {
                 loadTransactions();
                 loadTransactionsMonthly();
                 loadSummary();
+                setupDynamicEventListeners()
             } else {
                 alert('Terjadi kesalahan saat menghapus transaksi');
             }
