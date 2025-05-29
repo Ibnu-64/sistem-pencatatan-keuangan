@@ -304,9 +304,9 @@ function displayTransactions(transactions) {
                                 <i class="fa-solid fa-ellipsis"></i>
                             </button>
                             <div role="menu"
-                                class="actions-menu hidden absolute right-10 z-100 w-26  overflow-hidden rounded border border-gray-300 bg-white shadow-sm dark:border-gray-600 dark:bg-gray-800">
+                                class="actions-menu hidden absolute right-10 z-100 w-26  overflow-hidden rounded border shadow-sm border-gray-400 bg-[#3d3652]">
                                 <p
-                                    class="block px-3 py-2 text-sm text-gray-500 dark:text-gray-400 divide-x border-b border-gray-600">
+                                    class="block px-3 py-2 text-sm text-gray-200 divide-x border-b border-gray-400">
                                     Actions</p>
                                 <button type="button" data-action="edit" onclick="editTransaction('${transaction.id}')"
                                     class="inline-flex items-center justify-between w-full px-3 py-2 text-left text-sm font-medium text-blue-700 transition-colors hover:bg-blue-50 dark:text-blue-600 dark:hover:bg-blue-700/20">
