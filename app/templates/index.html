@@ -48,32 +48,30 @@
     </div>
 
     <!-- Transaction History Section (Moved Below Chart) -->
-    <div class="container p-4 rounded-lg bg-gray-900 text-white">
-        <!-- Transaction Table -->
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-2">
-            <div
-                class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                <div>
-                    <h2 class="text-xl font-medium ml-2">History Keuangan</h1>
-                </div>
-                <div class="space-x-2">
-                    </button>
-                    <button id="delete-all-btn"
-                        class=" rounded-sm bg-red-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
-                        <span class="hidden md:inline">⚠️ Delete All</span>
-                    </button>
-                    <button id="add-transaction-btn"
-                        class="inline-flex items-center gap-4 rounded-sm bg-blue-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
-                        <i class="fa-solid fa-plus"></i>
-                        <span class="hidden md:inline">Add</span>
-                </div>
-
+    <div class="container p-4 rounded-lg bg-[#635985] text-white">
+        <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+            <div>
+                <h2 class="text-xl font-medium ml-2">History Keuangan</h1>
             </div>
+            <div class="space-x-2">
+                </button>
+                <button id="delete-all-btn"
+                    class=" rounded-sm bg-red-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
+                    <span class="hidden md:inline">⚠️ Delete All</span>
+                </button>
+                <button id="add-transaction-btn"
+                    class="inline-flex items-center gap-4 rounded-sm bg-blue-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="hidden md:inline">Add</span>
+            </div>
+        </div>
+        <!-- Transaction Table -->
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-500">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-xs uppercase bg-[#7f72ab] text-gray-200 border border-gray-500">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Taggal
+                            Tanggal
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Type
@@ -99,30 +97,6 @@
                 </div>
 
             </table>
-            <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-6"
-                aria-label="Table navigation">
-                <span
-                    class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing
-                    <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span
-                        class="font-semibold text-gray-900 dark:text-white">1000</span></span>
-                <ul class="flex justify-center items-center gap-4 text-gray-900 dark:text-white">
-                    <li>
-                        <a href="#"
-                            class="grid size-8 place-content-center items-center justify-center rounded border transition-colors rtl:rotate-180 dark:border-gray-700 dark:hover:bg-gray-600"
-                            aria-label="Previous page">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="text-sm/8 font-medium tracking-widest">2/12</li>
-                    <li>
-                        <a href="#"
-                            class="grid size-8 place-content-center items-center justify-center rounded border transition-colors rtl:rotate-180 dark:border-gray-700 dark:hover:bg-gray-600"
-                            aria-label="Next page">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>

@@ -74,7 +74,7 @@ function setupEventListeners() {
 }
 
 function setupDynamicEventListeners() {
-        document.addEventListener("click", function (event) {
+    document.addEventListener("click", function (event) {
         const isMenuButton = event.target.closest(".actions-menu-button");
         if (isMenuButton) {
             const menu = isMenuButton.nextElementSibling;
@@ -202,33 +202,35 @@ function displayTransactions(transactions) {
 
     transactions.forEach(transaction => {
         const row = document.createElement('tr');
-        row.className = 'border-b border-gray-600 hover:bg-gray-700';
+        row.className = 'border-b text-gray-200 border-gray-500 hover:bg-[#7f72ab]';
 
-        const typeClass = transaction.type_id === 'income' ? 'text-green-400' : 'text-red-400';
+        const typeClass = transaction.type_id === 'income' ? 'bg-green-900 text-green-300' : 'dark:bg-red-900 dark:text-red-300';
         const typeText = transaction.type_id === 'income' ? 'Masuk' : 'Keluar';
 
         row.innerHTML = `
                 <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-6 py-4">
+                    class="border-b ">
+                    <td class="px-4 py-2">
                         ${formatDate(transaction.date)}
                     </td>
-                    <td class="px-6 py-4">
-                        ${typeClass}">${typeText}
+                    <td class="px-4 py-2 "> 
+                        <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm  ${typeClass}">
+                            ${typeText}
+                        </span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                         ${transaction.category_name}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                         ${transaction.description || '-'}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                         Rp ${formatNumber(transaction.amount)}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                         <div class="relative inline-flex">
                             <button type="button" aria-expanded="false" aria-haspopup="false" id="ibnu"
-                                class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 focus:relative dark:text-gray-200 dark:hover:bg-gray-500 dark:hover:text-white"
+                                class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium transition-colors hover:bg-[#635985] "
                                 aria-label="Actions">
                                 <i class="fa-solid fa-ellipsis"></i>
                             </button>
