@@ -105,42 +105,88 @@ function setupDynamicEventListeners() {
 
 
 // Initialize chart
-function initializeChart(data) {
+function initializeChart() {
     const ctx = document.getElementById('financialChart').getContext('2d');
 
+    // Create gradient for Pendapatan
+    const pendapatanGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    pendapatanGradient.addColorStop(0, 'rgba(130, 205, 255, 0.8)');
+    pendapatanGradient.addColorStop(1, 'rgba(130, 205, 255, 0)');
+
+    // Create gradient for Pengeluaran
+    const pengeluaranGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    pengeluaranGradient.addColorStop(0, 'rgba(255, 160, 180, 0.8)');
+    pengeluaranGradient.addColorStop(1, 'rgba(255, 160, 180, 0)');
+
     financialChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [
                 {
                     label: 'Pendapatan',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    backgroundColor: '#82cdff',
+                    backgroundColor: pendapatanGradient,
                     borderColor: '#059bff',
                     borderWidth: 2,
-                    borderSkipped: false,
-                    borderRadius: 5
+                    tension: 0.2,
+                    fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#059bff',
+                    pointRadius: 4,
+                    pointHoverRadius: 6
                 },
                 {
                     label: 'Pengeluaran',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    backgroundColor: '#ffa0b4',
+                    backgroundColor: pengeluaranGradient,
                     borderColor: '#ff6888',
                     borderWidth: 2,
-                    borderSkipped: false,
-                    borderRadius: 5
+                    tension: 0.2,
+                    fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#ff6888',
+                    pointRadius: 4,
+                    pointHoverRadius: 6
                 },
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: true,
+                    position: 'top',
                     labels: {
                         color: 'white',
                         font: {
-                            size: 14
+                            size: 14,
+                            family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+                        },
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    titleFont: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 14
+                    },
+                    padding: 12,
+                    usePointStyle: true,
+                    callbacks: {
+                        labelColor: function (context) {
+                            return {
+                                borderColor: context.dataset.borderColor,
+                                backgroundColor: context.dataset.borderColor,
+                                borderRadius: 2
+                            };
                         }
                     }
                 }
@@ -148,12 +194,35 @@ function initializeChart(data) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                    ticks: { color: 'white' }
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 12
+                        },
+                        padding: 10
+                    }
                 },
                 x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                    ticks: { color: 'white' }
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 12
+                        },
+                        padding: 10
+                    }
+                }
+            },
+            elements: {
+                line: {
+                    tension: 0.3
                 }
             }
         }
@@ -210,10 +279,10 @@ function displayTransactions(transactions) {
         row.innerHTML = `
                 <tr
                     class="border-b ">
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 text-center">
                         ${formatDate(transaction.date)}
                     </td>
-                    <td class="px-4 py-2 "> 
+                    <td class="px-4 py-2 text-center "> 
                         <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm  ${typeClass}">
                             ${typeText}
                         </span>
@@ -224,10 +293,10 @@ function displayTransactions(transactions) {
                     <td class="px-4 py-2">
                         ${transaction.description || '-'}
                     </td>
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 text-center">
                         Rp ${formatNumber(transaction.amount)}
                     </td>
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 text-center">
                         <div class="relative inline-flex">
                             <button type="button" aria-expanded="false" aria-haspopup="false" id="ibnu"
                                 class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium transition-colors hover:bg-[#635985] "

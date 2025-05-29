@@ -1,2 +1,33 @@
 @import "tailwindcss";
 /* npx tailwindcss -i ./static/css/input.css -o ./static/dist/output.css --watch   */
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-color-base-secondary: var(--base-secondar);
+    --color-subtext: var(--subtext);
+
+    --color-accent: var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-secondary: var(---accent-secondary);
+    --color-link: var(--link);
+
+    --radius-soft: 12px;
+
+    --font-heading: "Poppins", sans-serif;
+    --font-body: "Inter", sans-serif;
+}
+
+:root {
+    --background: #3d3652;
+    --foreground: #e5e7eb;
+
+    --base-secondary: #635985;
+    --subtext: #c5c6c7;
+
+    --accent: #5db4bd;
+    --accent-hover: #43838a;
+    --accent-secondary: #6c5b7b;
+    --link: #ffb86c;
+}
