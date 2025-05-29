@@ -110,8 +110,8 @@ function initializeChart() {
 
     // Create gradient for Pendapatan
     const pendapatanGradient = ctx.createLinearGradient(0, 0, 0, 400);
-    pendapatanGradient.addColorStop(0, 'rgba(130, 205, 255, 0.8)');
-    pendapatanGradient.addColorStop(1, 'rgba(130, 205, 255, 0)');
+    pendapatanGradient.addColorStop(0, 'rgba(6, 182, 212, 0.8)');
+    pendapatanGradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
 
     // Create gradient for Pengeluaran
     const pengeluaranGradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -127,12 +127,12 @@ function initializeChart() {
                     label: 'Pendapatan',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     backgroundColor: pendapatanGradient,
-                    borderColor: '#059bff',
+                    borderColor: '#06b6d4',
                     borderWidth: 2,
                     tension: 0.2,
                     fill: true,
                     pointBackgroundColor: '#fff',
-                    pointBorderColor: '#059bff',
+                    pointBorderColor: '#06b6d4',
                     pointRadius: 4,
                     pointHoverRadius: 6
                 },
@@ -350,9 +350,9 @@ async function loadSummary() {
         const response = await fetch(`api/summary`);
         const summary = await response.json();
 
-        document.getElementById('income-display').textContent = `RP.${formatNumber(summary.total_income)},`;
-        document.getElementById('expense-display').textContent = `RP.${formatNumber(summary.total_expense)},`;
-        document.getElementById('balance-display').textContent = `RP.${formatNumber(summary.balance)},`;
+        document.getElementById('income-display').textContent = `RP.${formatNumber(summary.total_income)}`;
+        document.getElementById('expense-display').textContent = `RP.${formatNumber(summary.total_expense)}`;
+        document.getElementById('balance-display').textContent = `RP.${formatNumber(summary.balance)}`;
 
 
     } catch (error) {

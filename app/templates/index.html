@@ -24,31 +24,31 @@
     <!-- Financial Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <!-- Income Card -->
-        <div class="bg-[#c2e7d9] rounded-lg p-4">
-            <h2 class="text-[#4b7a6d] font-medium">PENDAPATAN</h2>
-            <p id="income-display" class="text-[#4b7a6d] text-2xl font-bold">RP. 0,</p>
+        <div class="bg-[#635985] rounded-lg p-4 border border-gray-400/50">
+            <h2 class="text-gray-200 font-medium">PENDAPATAN</h2>
+            <p id="income-display" class="text-cyan-500 text-2xl font-bold">RP. 0</p>
         </div>
 
         <!-- Expense Card -->
-        <div class="bg-[#ffd4d4] rounded-lg p-4">
-            <h2 class="text-[#c25e5e] font-medium">PENGELUARAN</h2>
-            <p id="expense-display" class="text-[#c25e5e] text-2xl font-bold">RP. 0,</p>
+        <div class="bg-[#635985]  rounded-lg p-4 border border-gray-400/50">
+            <h2 class="text-gray-200 font-medium">PENGELUARAN</h2>
+            <p id="expense-display" class="text-red-500 text-2xl font-bold">RP. 0</p>
         </div>
 
         <!-- Balance Card -->
-        <div class="bg-[#c5d5f2] rounded-lg p-4">
-            <h2 class="text-[#5f7fbf] font-medium">SALDO AKHIR</h2>
-            <p id="balance-display" class="text-[#5f7fbf] text-2xl font-bold">RP. 0,</p>
+        <div class="bg-[#635985]  rounded-lg p-4 border border-gray-400/50">
+            <h2 class="text-gray-200 font-medium">SALDO AKHIR</h2>
+            <p id="balance-display" class="text-gray-200 text-2xl font-bold">RP. 0</p>
         </div>
     </div>
 
     <!-- Graph Area -->
-    <div class="bg-[#635985] rounded-lg p-4 mb-6">
+    <div class="bg-[#635985] rounded-lg p-4 mb-6 border border-gray-400/50">
         <canvas id="financialChart" style="position: relative; height:50vh; width:80vw"></canvas>
     </div>
 
     <!-- Transaction History Section (Moved Below Chart) -->
-    <div class="container p-4 rounded-lg bg-[#635985] text-white">
+    <div class="container p-4 rounded-lg bg-[#635985] text-white border border-gray-400/50">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <div>
                 <h2 class="text-xl font-medium ml-2">History Keuangan</h1>
@@ -56,19 +56,19 @@
             <div class="space-x-2">
                 </button>
                 <button id="delete-all-btn"
-                    class=" rounded-sm bg-red-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
+                    class=" rounded-sm bg-red-500 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-red-600">
                     <span class="hidden md:inline">⚠️ Delete All</span>
                 </button>
                 <button id="add-transaction-btn"
-                    class="inline-flex items-center gap-4 rounded-sm bg-blue-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-blue-800">
+                    class="inline-flex items-center gap-4 rounded-sm bg-cyan-600 px-4 py-2 aspect-square sm:aspect-auto text-xs md:text-sm font-medium text-white transition hover:scale-110 hover:-rotate-2 active:bg-cyan-800">
                     <i class="fa-solid fa-plus"></i>
                     <span class="hidden md:inline">Add</span>
             </div>
         </div>
         <!-- Transaction Table -->
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-500">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-400/50">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs uppercase bg-[#7f72ab] text-gray-200 border border-gray-500">
+                <thead class="text-xs uppercase bg-[#7f72ab] text-gray-200 border-b border-gray-400/50">
                     <tr>
                         <th scope="col" class="px-4 py-2 text-center">
                             Tanggal

@@ -1,6 +1,8 @@
 @import "tailwindcss";
 /* npx tailwindcss -i ./static/css/input.css -o ./static/dist/output.css --watch   */
 
+
+
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -26,8 +28,9 @@
     --base-secondary: #635985;
     --subtext: #c5c6c7;
 
-    --accent: #5db4bd;
-    --accent-hover: #43838a;
-    --accent-secondary: #6c5b7b;
+    --accent: #0891b2;
+    --accent-hover: #155e75;
+    --accent-secondary: #ef4444;
+    --accent-secondary-hover: #991b1b;
     --link: #ffb86c;
 }
