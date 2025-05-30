@@ -10,41 +10,36 @@ def add_transactions():
     """Menambah transaksi baru"""
     connection = db_connection()
     if connection is None:
-        return jsonify({'error': 'Database connection failed'}), 500
+        return jsonify({'error': 'Koneksi database gagal'}), 500
 
     try:
         data = request.get_json()
         
-
         # Validasi field yang diperlukan
         required_fields = ['type', 'amount', 'category', 'date']
         for field in required_fields:
             if field not in data:
-                return jsonify({'error': f'Field {field} is required'}), 422
-            
+                return jsonify({'error': f'Field {field} wajib diisi'}), 422
 
         # Validasi type
         if data['type'] not in ['income', 'expense']:
-            return jsonify({'error': 'Type must be income or expense'}), 422
+            return jsonify({'error': 'Tipe harus income atau expense'}), 422
 
         # Validasi amount
         try:
             amount = float(data['amount'])
             if amount <= 0:
-                return jsonify({'error': 'Amount must be greater than 0'}), 422
+                return jsonify({'error': 'Jumlah harus lebih dari 0'}), 422
         except ValueError:
-            return jsonify({'error': 'Invalid amount format'}), 422
+            return jsonify({'error': 'Format jumlah tidak valid'}), 422
 
         # Validasi date format
         try:
             datetime.strptime(data['date'], '%Y-%m-%d')
         except ValueError:
-            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 422
+            return jsonify({'error': 'Format tanggal tidak valid. Gunakan YYYY-MM-DD'}), 422
 
         with connection.cursor() as cursor:
-            
-            
-            
             query = """
                 INSERT INTO transactions (type_id, amount, category_id, description, date)
                 VALUES (%s, %s, %s, %s, %s)
@@ -60,11 +55,11 @@ def add_transactions():
             connection.commit()
 
         return jsonify({
-            'message': 'Transaction added successfully',
+            'message': 'Transaksi berhasil ditambahkan',
         }), 201
 
     except Error as e:
         connection.rollback()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'Terjadi kesalahan: {str(e)}'}), 500
     finally:
         connection.close()

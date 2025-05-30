@@ -1,86 +1,86 @@
 USE sistem_pencatatan_keuangan;
 
--- Perbaharui data financial_summary saat ada transaksi baru
+-- Perbaharui data ringkasan_transaksi saat ada transaksi baru
 DELIMITER $$
 CREATE TRIGGER trg_add
-AFTER INSERT ON transactions
+AFTER INSERT ON transaksi
 FOR EACH ROW
 BEGIN
-    IF NEW.type_id = 'income' THEN
-        UPDATE financial_summary
-        SET total_income = total_income + NEW.amount
+    IF NEW.id_tipe = 'income' THEN
+        UPDATE ringkasan_transaksi
+        SET total_pendapatan = total_pendapatan + NEW.jumlah
         WHERE id = 1;
     ELSE
-        UPDATE financial_summary
-        SET total_expense = total_expense + NEW.amount
+        UPDATE ringkasan_transaksi
+        SET total_pengeluaran = total_pengeluaran + NEW.jumlah
         WHERE id = 1;
     END IF;
 END $$
 DELIMITER ;
 
--- Perbaharui data financial_summary saat ada transaksi di hapus
+-- Perbaharui data ringkasan_transaksi saat ada transaksi di hapus
 DELIMITER $$
 CREATE TRIGGER trg_delete
-AFTER DELETE ON transactions
+AFTER DELETE ON transaksi
 FOR EACH ROW
 BEGIN
-    IF OLD.type_id = 'income' THEN
-        UPDATE financial_summary
-        SET total_income = total_income - OLD.amount
+    IF OLD.id_tipe = 'income' THEN
+        UPDATE ringkasan_transaksi
+        SET total_pendapatan = total_pendapatan - OLD.jumlah
         WHERE id = 1;
     ELSE
-        UPDATE financial_summary
-        SET total_expense = total_expense - OLD.amount
+        UPDATE ringkasan_transaksi
+        SET total_pengeluaran = total_pengeluaran - OLD.jumlah
         WHERE id = 1;
     END IF;
 END $$
 DELIMITER ;
 
--- Perbaharui data financial_summary saat ada transaksi di update
+-- Perbaharui data ringkasan_transaksi saat ada transaksi di update
 DELIMITER $$
 CREATE TRIGGER trg_update
-AFTER UPDATE ON transactions
+AFTER UPDATE ON transaksi
 FOR EACH ROW
 BEGIN
     -- Jika tipe tidak berubah
-    IF NEW.type_id = OLD.type_id THEN
-        IF NEW.type_id = 'income' THEN
-            UPDATE financial_summary
-            SET total_income = total_income + NEW.amount - OLD.amount
+    IF NEW.id_tipe = OLD.id_tipe THEN
+        IF NEW.id_tipe = 'income' THEN
+            UPDATE ringkasan_transaksi
+            SET total_pendapatan = total_pendapatan + NEW.jumlah - OLD.jumlah
             WHERE id = 1;
         ELSE
-            UPDATE financial_summary
-            SET total_expense = total_expense + NEW.amount - OLD.amount
+            UPDATE ringkasan_transaksi
+            SET total_pengeluaran = total_pengeluaran + NEW.jumlah - OLD.jumlah
             WHERE id = 1;
         END IF;
     
     -- Jika tipe berubah
     ELSE
         -- Kurangi dari tipe lama
-        IF OLD.type_id = 'income' THEN
-            UPDATE financial_summary
-            SET total_income = total_income - OLD.amount
+        IF OLD.id_tipe = 'income' THEN
+            UPDATE ringkasan_transaksi
+            SET total_pendapatan = total_pendapatan - OLD.jumlah
             WHERE id = 1;
         ELSE
-            UPDATE financial_summary
-            SET total_expense = total_expense - OLD.amount
+            UPDATE ringkasan_transaksi
+            SET total_pengeluaran = total_pengeluaran - OLD.jumlah
             WHERE id = 1;
         END IF;
         
         -- Tambah ke tipe baru
-        IF NEW.type_id = 'income' THEN
-            UPDATE financial_summary
-            SET total_income = total_income + NEW.amount
+        IF NEW.id_tipe = 'income' THEN
+            UPDATE ringkasan_transaksi
+            SET total_pendapatan = total_pendapatan + NEW.jumlah
             WHERE id = 1;
         ELSE
-            UPDATE financial_summary
-            SET total_expense = total_expense + NEW.amount
+            UPDATE ringkasan_transaksi
+            SET total_pengeluaran = total_pengeluaran + NEW.jumlah
             WHERE id = 1;
         END IF;
     END IF;
 END $$
 DELIMITER ;
 
--- Tambahkan data awal ke financial_summary
-INSERT INTO financial_summary (id, total_income, total_expense) VALUES (1, 0, 0)
+-- Tambahkan data awal ke ringkasan_transaksi
+INSERT INTO ringkasan_transaksi (id, total_pendapatan, total_pengeluaran) VALUES (1, 0, 0)
 ON DUPLICATE KEY UPDATE id = id;
