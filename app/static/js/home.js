@@ -259,6 +259,7 @@ async function loadTransactionsMonthly() {
 // Display transactions in table
 function displayTransactions(transactions) {
     const tbody = document.getElementById('transaction-tbody');
+    const mobileContainer = document.getElementById('transaction-mobile');
     const noTransactions = document.getElementById('no-transactions');
 
     if (transactions.length === 0) {
@@ -267,36 +268,34 @@ function displayTransactions(transactions) {
     }
 
     tbody.innerHTML = '';
+    mobileContainer.innerHTML = '';
     noTransactions.classList.add('hidden');
 
     transactions.forEach(transaction => {
+        // Desktop Table Row
         const row = document.createElement('tr');
         row.className = 'border-b text-gray-200 border-gray-500 hover:bg-[#7f72ab]';
 
         const typeClass = transaction.type_id === 'income' ? 'bg-green-900 text-green-300' : 'dark:bg-red-900 dark:text-red-300';
-        const typeText = transaction.type_id === 'income' ? 'Masuk' : 'Keluar';
-
-        row.innerHTML = `
-                <tr
-                    class="border-b ">
-                    <td class="px-4 py-2 text-center">
+        const typeText = transaction.type_id === 'income' ? 'Masuk' : 'Keluar';row.innerHTML = `
+                    <td class="px-6 py-3 text-center w-[15%]">
                         ${formatDate(transaction.date)}
                     </td>
-                    <td class="px-4 py-2 text-center "> 
+                    <td class="px-6 py-3 text-center w-[10%]"> 
                         <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm  ${typeClass}">
                             ${typeText}
                         </span>
                     </td>
-                    <td class="px-4 py-2">
+                    <td class="px-6 py-3 w-[15%]">
                         ${transaction.category_name}
                     </td>
-                    <td class="px-4 py-2">
+                    <td class="px-6 py-3 w-[35%]">
                         ${transaction.description || '-'}
                     </td>
-                    <td class="px-4 py-2 text-center">
+                    <td class="px-6 py-3 text-center w-[15%]">
                         Rp ${formatNumber(transaction.amount)}
                     </td>
-                    <td class="px-4 py-2 text-center">
+                    <td class="px-6 py-3 text-center w-[10%]">
                         <div class="relative inline-flex">
                             <button type="button" aria-expanded="false" aria-haspopup="false" id="ibnu"
                                 class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium transition-colors hover:bg-[#635985] "
@@ -324,23 +323,59 @@ function displayTransactions(transactions) {
                                         stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>
-                                </button>
+                                    </svg>                                </button>
                             </div>
                         </div>
                     </td>
-                </tr>
                 `;
         tbody.appendChild(row);
+
+        // Mobile Card
+        const mobileCard = document.createElement('div');
+        mobileCard.className = 'bg-[#7f72ab] rounded-lg p-4 border border-gray-400/50';
+        mobileCard.innerHTML = `
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <span class="text-xs font-medium px-2.5 py-0.5 rounded-sm ${typeClass}">
+                        ${typeText}
+                    </span>
+                    <p class="text-sm text-gray-300 mt-1">${formatDate(transaction.date)}</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg font-bold text-gray-200">Rp ${formatNumber(transaction.amount)}</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-400/50 pt-2">
+                <p class="text-sm text-gray-300">
+                    <span class="font-medium">Kategori:</span> ${transaction.category_name}
+                </p>
+                <p class="text-sm text-gray-300 mt-1">
+                    <span class="font-medium">Note:</span> ${transaction.description || '-'}
+                </p>
+                <div class="flex justify-end mt-3 space-x-2">
+                    <button onclick="editTransaction('${transaction.id}')" 
+                            class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
+                        Edit
+                    </button>
+                    <button onclick="deleteTransaction('${transaction.id}')" 
+                            class="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        `;
+        mobileContainer.appendChild(mobileCard);
     });
 }
 
 // Show no transactions message
 function showNoTransactions() {
     const tbody = document.getElementById('transaction-tbody');
+    const mobileContainer = document.getElementById('transaction-mobile');
     const noTransactions = document.getElementById('no-transactions');
 
     tbody.innerHTML = '';
+    mobileContainer.innerHTML = '';
     noTransactions.classList.remove('hidden');
 }
 
