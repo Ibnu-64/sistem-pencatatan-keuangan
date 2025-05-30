@@ -15,15 +15,15 @@ def delete_transactions(transaction_id):
     try:
         with connection.cursor() as cursor:
             # Cek apakah transaksi ada
-            cursor.execute("SELECT id FROM transactions WHERE id = %s", (transaction_id,))
+            cursor.execute("SELECT id FROM transaksi WHERE id = %s", (transaction_id,))
             if cursor.fetchone() is None:
                 return jsonify({'error': 'Data transaksi tidak ditemukan'}), 404
             
             # Hapus transaksi
-            cursor.execute("DELETE FROM transactions WHERE id = %s", (transaction_id,))
+            cursor.execute("DELETE FROM transaksi WHERE id = %s", (transaction_id,))
             connection.commit()
         
-        return jsonify({'message': 'Transaction deleted successfully'})
+        return jsonify({'message': 'Transaksi berhasil dihapus'})
         
     except Error as e:
         connection.rollback()

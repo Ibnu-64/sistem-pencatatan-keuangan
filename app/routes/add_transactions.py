@@ -16,40 +16,40 @@ def add_transactions():
         data = request.get_json()
         
         # Validasi field yang diperlukan
-        required_fields = ['type', 'amount', 'category', 'date']
+        required_fields = ['tipe_id', 'jumlah', 'id_kategori', 'tanggal']
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Field {field} wajib diisi'}), 422
 
-        # Validasi type
-        if data['type'] not in ['income', 'expense']:
-            return jsonify({'error': 'Tipe harus income atau expense'}), 422
+        # Validasi tipe_id
+        if data['tipe_id'] not in ['pendapatan', 'pengeluaran']:
+            return jsonify({'error': 'Tipe harus pendapatan atau pengeluaran'}), 422
 
-        # Validasi amount
+        # Validasi jumlah
         try:
-            amount = float(data['amount'])
-            if amount <= 0:
+            jumlah = float(data['jumlah'])
+            if jumlah <= 0:
                 return jsonify({'error': 'Jumlah harus lebih dari 0'}), 422
         except ValueError:
             return jsonify({'error': 'Format jumlah tidak valid'}), 422
 
-        # Validasi date format
+        # Validasi tanggal format
         try:
-            datetime.strptime(data['date'], '%Y-%m-%d')
+            datetime.strptime(data['tanggal'], '%Y-%m-%d')
         except ValueError:
             return jsonify({'error': 'Format tanggal tidak valid. Gunakan YYYY-MM-DD'}), 422
 
         with connection.cursor() as cursor:
             query = """
-                INSERT INTO transactions (type_id, amount, category_id, description, date)
+                INSERT INTO transaksi (tipe_id, jumlah, id_kategori, deskripsi, tanggal)
                 VALUES (%s, %s, %s, %s, %s)
             """
             values = (
-                data['type'],
-                amount,
-                data['category'],
-                data.get('description', ''),
-                data['date']
+                data['tipe_id'],
+                jumlah,
+                data['id_kategori'],
+                data.get('deskripsi', ''),
+                data['tanggal']
             )
             cursor.execute(query, values)
             connection.commit()

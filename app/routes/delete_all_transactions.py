@@ -6,7 +6,7 @@ delete_all_transactions_bp = Blueprint('delete_all_transactions)', __name__)
 
 @delete_all_transactions_bp.route('/api/transactions', methods=['DELETE'])
 def delete_all_transactions():
-    """Menghapus semua transaksi"""
+    """Menghapus semua data transaksi"""
     connection = db_connection()
     if connection is None:
         return jsonify({'error': 'Koneksi database gagal'}), 500
@@ -15,7 +15,7 @@ def delete_all_transactions():
     try:
         
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM transactions")
+            cursor.execute("DELETE FROM transaksi")
             connection.commit()
         
         return jsonify({'message': 'Semua transaksi berhasil dihapus'})
@@ -24,5 +24,4 @@ def delete_all_transactions():
         connection.rollback()
         return jsonify({'error': str(e)}), 500
     finally:
-        cursor.close()
         connection.close()

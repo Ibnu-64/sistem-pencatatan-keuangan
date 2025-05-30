@@ -11,13 +11,13 @@ conn = mysql.connector.connect(
 cursor = conn.cursor(dictionary=True)
 
 # Ambil semua kategori yang tersedia
-cursor.execute("SELECT category_id, type_id FROM categories")
-categories = cursor.fetchall()
+cursor.execute("SELECT id_kategori, tipe_id FROM kategori")
+kategori = cursor.fetchall()
 
-# Group kategori berdasarkan type_id
-category_map = {
-    'income': [c['category_id'] for c in categories if c['type_id'] == 'income'],
-    'expense': [c['category_id'] for c in categories if c['type_id'] == 'expense']
+# Group kategori berdasarkan tipe_id
+kategori_map = {
+    'pendapatan': [k['id_kategori'] for k in kategori if k['tipe_id'] == 'pendapatan'],
+    'pengeluaran': [k['id_kategori'] for k in kategori if k['tipe_id'] == 'pengeluaran']
 }
 
 # Fungsi untuk generate tanggal acak
@@ -30,10 +30,10 @@ def random_date(start, end):
 jumlah_data = 50  # Jumlah transaksi yang ingin dibuat
 
 for _ in range(jumlah_data):
-    type_id = random.choice(['income', 'expense'])
-    category_id = random.choice(category_map[type_id])
-    amount = round(random.uniform(10000, 1000000))
-    description = random.choice([
+    tipe_id = random.choice(['pendapatan', 'pengeluaran'])
+    id_kategori = random.choice(kategori_map[tipe_id])
+    jumlah = round(random.uniform(10000, 1000000))
+    deskripsi = random.choice([
         'Lorem ipsum dolor sit amet',
         '',
         '',
@@ -42,14 +42,14 @@ for _ in range(jumlah_data):
         '',
         'sit amet'
     ])
-    date = random_date(datetime(2025, 1, 1), datetime(2025, 12, 31)).date()
+    tanggal = random_date(datetime(2025, 1, 1), datetime(2025, 12, 31)).date()
 
     query = """
-    INSERT INTO transactions ( type_id, amount, category_id, description, date)
-    VALUES ( %s, %s, %s, %s, %s)
+    INSERT INTO transaksi (tipe_id, jumlah, id_kategori, deskripsi, tanggal)
+    VALUES (%s, %s, %s, %s, %s)
     """
-    values = ( type_id, amount, category_id, description, date)
-    print(f"Menambahkan transaksi: {type_id}, {amount}, {category_id}, {description}, {date}")
+    values = (tipe_id, jumlah, id_kategori, deskripsi, tanggal)
+    print(f"Menambahkan transaksi: {tipe_id}, {jumlah}, {id_kategori}, {deskripsi}, {tanggal}")
     cursor.execute(query, values)
 
 conn.commit()

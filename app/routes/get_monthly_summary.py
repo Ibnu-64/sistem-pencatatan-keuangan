@@ -11,43 +11,42 @@ def get_monthly_summary():
     """Mengambil ringkasan keuangan per bulan untuk chart"""
     connection = db_connection()
     if connection is None:
-        return jsonify({'error': 'Database connection failed'}), 500
+        return jsonify({'error': 'Koneksi database gagal'}), 500
     
     cursor = connection.cursor(dictionary=True)
     
     try:
-        # Ambil data 6 bulan terakhir
         cursor.execute("""
             SELECT 
-                DATE_FORMAT(date, '%Y-%m') as month,
-                SUM(CASE WHEN type_id = 'income' THEN amount ELSE 0 END) as income,
-                SUM(CASE WHEN type_id = 'expense' THEN amount ELSE 0 END) as expense
-            FROM transactions 
-            WHERE date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
-            GROUP BY DATE_FORMAT(date, '%Y-%m')
-            ORDER BY month;
+                DATE_FORMAT(tanggal, '%Y-%m') as bulan,
+                SUM(CASE WHEN tipe_id = 'pendapatan' THEN jumlah ELSE 0 END) as pendapatan,
+                SUM(CASE WHEN tipe_id = 'pengeluaran' THEN jumlah ELSE 0 END) as pengeluaran
+            FROM transaksi
+            WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+            GROUP BY DATE_FORMAT(tanggal, '%Y-%m')
+            ORDER BY bulan;
         """)
         
         monthly_data = cursor.fetchall()
         
         # Format data untuk chart
-        months = []
-        income_data = []
-        expense_data = []
-        balance_data = []
+        bulan_list = []
+        pendapatan_data = []
+        pengeluaran_data = []
+        saldo_data = []
         
         for data in monthly_data:
-            month_name = datetime.strptime(data['month'], '%Y-%m').strftime('%b')
-            months.append(month_name)
-            income_data.append(float(data['income']))
-            expense_data.append(float(data['expense']))
-            balance_data.append(float(data['income']) - float(data['expense']))
+            month_name = datetime.strptime(data['bulan'], '%Y-%m').strftime('%b')
+            bulan_list.append(month_name)
+            pendapatan_data.append(float(data['pendapatan']))
+            pengeluaran_data.append(float(data['pengeluaran']))
+            saldo_data.append(float(data['pendapatan']) - float(data['pengeluaran']))
         
         return jsonify({
-            'months': months,
-            'income': income_data,
-            'expense': expense_data,
-            'balance': balance_data
+            'bulan': bulan_list,
+            'pendapatan': pendapatan_data,
+            'pengeluaran': pengeluaran_data,
+            'saldo': saldo_data
         })
         
     except Error as e:

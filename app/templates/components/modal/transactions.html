@@ -20,17 +20,16 @@
         </div>
 
         <!-- Tabs  -->
-        <div
-            class="inline-flex overflow-hidden border-y p-2 shadow-sm border-gray-400/50 bg-[#3d3652] w-full">
+        <div class="inline-flex overflow-hidden border-y p-2 shadow-sm border-gray-400/50 bg-[#3d3652] w-full">
             <button type="button" id="btn-income"
                 class="transaction-type-btn w-full cursor-pointer px-3 py-1.5 rounded-sm text-sm font-medium text-gray-200 data-[active=true]:bg-[#635985]"
-                data-type="income" data-active="true">
-                Income
+                data-type="pendapatan" data-active="true">
+                Pendapatan
             </button>
             <button type="button" id="btn-expense"
                 class="transaction-type-btn w-full cursor-pointer px-3 py-1.5 rounded-sm text-sm font-medium text-gray-200 data-[active=true]:bg-[#635985]"
-                data-type="expense" data-active="false">
-                Expense
+                data-type="pengeluaran" data-active="false">
+                Pengeluaran
             </button>
         </div>
 
@@ -39,21 +38,18 @@
             <input type="hidden" id="transaction-id" value="">
             <div class="grid gap-4 mb-4 grid-cols-2">
                 <div class="col-span-2">
-                    <label for="name"
-                        class="block mb-2 text-sm font-medium text-gray-200">Tanggal</label>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-200">Tanggal</label>
                     <input type="date" id="date" required
                         class="border text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-[#3d3652] border-gray-400 text-gray-200 focus:outline-none focus:ring-[#7f72ab] focus:ring-2">
                 </div>
                 <div class="col-span-2 sm:col-span-1">
-                    <label for="amount"
-                        class="block mb-2 text-sm font-medium text-gray-200">Harga</label>
+                    <label for="amount" class="block mb-2 text-sm font-medium text-gray-200">Harga</label>
                     <input type="number" name="amount" id="amount"
                         class="border text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-[#3d3652] border-gray-400 text-gray-200 focus:outline-none focus:ring-[#7f72ab] focus:ring-2"
                         placeholder="20000" required="">
                 </div>
                 <div class="col-span-2 sm:col-span-1 ">
-                    <label for="category"
-                        class="block mb-2 text-sm font-medium text-gray-200">Category</label>
+                    <label for="category" class="block mb-2 text-sm font-medium text-gray-200">Category</label>
                     <select id="category"
                         class="border text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-[#3d3652] border-gray-400 text-gray-200 focus:outline-none focus:ring-[#7f72ab] focus:ring-2">
                         <option selected="">Select category</option>

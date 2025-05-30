@@ -9,20 +9,20 @@ def get_summary():
     """Mengambil ringkasan keuangan"""
     connection = db_connection()
     if connection is None:
-        return jsonify({'error': 'Database connection failed'}), 500
+        return jsonify({'error': 'Koneksi database gagal'}), 500
     
     try:
         
         with connection.cursor(dictionary=True) as cursor:
             cursor.execute("""
-                SELECT total_income, total_expense, balance 
-                FROM financial_summary 
+                SELECT total_pendapatan, total_pengeluaran, saldo
+                FROM ringkasan_keuangan
                 WHERE id = 1
             """)
             summary = cursor.fetchone()
             
             if summary is None:
-                return jsonify({'error': 'Summary not found'}), 404
+                return jsonify({'error': 'Ringkasan tidak ditemukan'}), 404
         
         
         return jsonify(summary)

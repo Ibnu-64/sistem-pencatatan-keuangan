@@ -10,7 +10,7 @@ def get_transactions():
     """Mengambil semua data transaksi"""
     connection = db_connection()
     if connection is None:
-        return jsonify({'error': 'Database connection failed'}), 500
+        return jsonify({'error': 'Koneksi database gagal'}), 500
     
     
     try:
@@ -19,27 +19,27 @@ def get_transactions():
             cursor.execute("""
                 SELECT 
                     t.id,
-                    t.type_id,
-                    t.amount,
-                    t.date,
-                    c.name AS category_name,
-                    tt.description AS type_description,
-                    t.description
+                    t.tipe_id,
+                    t.jumlah,
+                    t.tanggal,
+                    k.nama AS nama_kategori,
+                    tt.keterangan AS keterangan_tipe,
+                    t.deskripsi
                 FROM 
-                    transactions t
+                    transaksi t
                 JOIN 
-                    categories c ON t.category_id = c.category_id
+                    kategori k ON t.id_kategori = k.id_kategori
                 JOIN 
-                    transaction_types tt ON t.type_id = tt.type_id
+                    tipe_transaksi tt ON t.tipe_id = tt.tipe_id
                 ORDER BY 
-                    t.date DESC
+                    t.tanggal DESC
             """)
             transactions = cursor.fetchall()
         
         # convert date to ISO format
         for transaction in transactions:
-            if transaction['date']:
-                transaction['date'] = transaction['date'].isoformat()
+            if transaction['tanggal']:
+                transaction['tanggal'] = transaction['tanggal'].isoformat()
         return jsonify(transactions)
         
     except Error as e:

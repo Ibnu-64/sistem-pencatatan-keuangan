@@ -15,44 +15,42 @@ def update_transactions(transaction_id):
     
     try:
         data = request.get_json()
-        
         # Validasi data
-        required_fields = ['type', 'amount', 'category', 'date']
+        required_fields = ['tipe_id', 'jumlah', 'id_kategori', 'tanggal']
         for field in required_fields:
             if field not in data:
-                return jsonify({'error': f'Field {field} is required'}), 400
-        
-        if data['type'] not in ['income', 'expense']:
-            return jsonify({'error': 'Type must be income or expense'}), 400
-        
-        if float(data['amount']) <= 0:
-            return jsonify({'error': 'Amount must be greater than 0'}), 400
-        
+                return jsonify({'error': f'Field {field} wajib diisi'}), 400
+
+        if data['tipe_id'] not in ['pendapatan', 'pengeluaran']:
+            return jsonify({'error': 'Tipe harus pendapatan atau pengeluaran'}), 400
+
+        if float(data['jumlah']) <= 0:
+            return jsonify({'error': 'Jumlah harus lebih dari 0'}), 400
+
         with connection.cursor() as cursor:
             # Cek apakah id transaksi ada
-            cursor.execute("SELECT id FROM transactions WHERE id = %s", (transaction_id,))
+            cursor.execute("SELECT id FROM transaksi WHERE id = %s", (transaction_id,))
             if cursor.fetchone() is None:
-                return jsonify({'error': 'Transaction not found'}), 404
-            
+                return jsonify({'error': 'Transaksi tidak ditemukan'}), 404
+
             # Update transaksi
             query = """
-                UPDATE transactions 
-                SET type_id = %s, amount = %s, category_id = %s, description = %s, date = %s
+                UPDATE transaksi 
+                SET tipe_id = %s, jumlah = %s, id_kategori = %s, deskripsi = %s, tanggal = %s
                 WHERE id = %s
             """
             values = (
-                data['type'],
-                float(data['amount']),
-                data['category'],
-                data.get('description', ''),
-                data['date'],
+                data['tipe_id'],
+                float(data['jumlah']),
+                data['id_kategori'],
+                data.get('deskripsi', ''),
+                data['tanggal'],
                 transaction_id
             )
-            
             cursor.execute(query, values)
             connection.commit()
-        
-        return jsonify({'message': 'Transaction updated successfully'})
+
+        return jsonify({'message': 'Transaksi berhasil diupdate'})
         
     except Error as e:
         connection.rollback()

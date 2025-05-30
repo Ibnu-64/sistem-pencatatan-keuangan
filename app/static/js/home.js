@@ -1,9 +1,8 @@
-
 // Global variables
 let financialChart;
 let currentEditId = null;
 let confirmCallback = null;
-let currentType = 'income';
+let currentType = 'pendapatan';
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', async function () {
@@ -58,6 +57,7 @@ function setupEventListeners() {
 
             // Update state dan kategori
             currentType = type;
+            // Ubah agar updateCategories menerima 'pendapatan' atau 'pengeluaran'
             updateCategories(type);
         });
     });
@@ -276,58 +276,50 @@ function displayTransactions(transactions) {
         const row = document.createElement('tr');
         row.className = 'border-b text-gray-200 border-gray-500 hover:bg-[#7f72ab]';
 
-        const typeClass = transaction.type_id === 'income' ? 'bg-green-900 text-green-300' : 'dark:bg-red-900 dark:text-red-300';
-        const typeText = transaction.type_id === 'income' ? 'Masuk' : 'Keluar';row.innerHTML = `
-                    <td class="px-6 py-3 text-center w-[15%]">
-                        ${formatDate(transaction.date)}
-                    </td>
-                    <td class="px-6 py-3 text-center w-[10%]"> 
-                        <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm  ${typeClass}">
-                            ${typeText}
-                        </span>
-                    </td>
-                    <td class="px-6 py-3 w-[15%]">
-                        ${transaction.category_name}
-                    </td>
-                    <td class="px-6 py-3 w-[35%]">
-                        ${transaction.description || '-'}
-                    </td>
-                    <td class="px-6 py-3 text-center w-[15%]">
-                        Rp ${formatNumber(transaction.amount)}
-                    </td>
-                    <td class="px-6 py-3 text-center w-[10%]">
-                        <div class="relative inline-flex">
-                            <button type="button" aria-expanded="false" aria-haspopup="false" id="ibnu"
-                                class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium transition-colors hover:bg-[#635985] "
-                                aria-label="Actions">
-                                <i class="fa-solid fa-ellipsis"></i>
-                            </button>
-                            <div role="menu"
-                                class="actions-menu hidden absolute right-10 z-100 w-26  overflow-hidden rounded border shadow-sm border-gray-400 bg-[#3d3652]">
-                                <p
-                                    class="block px-3 py-2 text-sm text-gray-200 divide-x border-b border-gray-400">
-                                    Actions</p>
-                                <button type="button" data-action="edit" onclick="editTransaction('${transaction.id}')"
-                                    class="inline-flex items-center justify-between w-full px-3 py-2 text-left text-sm font-medium text-blue-700 transition-colors hover:bg-blue-50 dark:text-blue-600 dark:hover:bg-blue-700/20">
-                                    Edit
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                    </svg>
-                                </button>
-                                <button type="button" data-action="delete" onclick="deleteTransaction('${transaction.id}')" 
-                                    class="inline-flex items-center justify-between w-full px-3 py-2 text-left text-sm font-medium text-red-700 transition-colors hover:bg-red-50 dark:text-red-600 dark:hover:bg-red-700/20">
-                                    Delete
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>                                </button>
-                            </div>
-                        </div>
-                    </td>
-                `;
+        const typeClass = transaction.tipe_id === 'pendapatan' ? 'bg-green-900 text-green-300' : 'dark:bg-red-900 dark:text-red-300';
+        const typeText = transaction.tipe_id === 'pendapatan' ? 'Masuk' : 'Keluar';
+        row.innerHTML = `
+            <td class="px-6 py-3 text-center w-[15%]">
+                ${formatDate(transaction.tanggal)}
+            </td>
+            <td class="px-6 py-3 text-center w-[10%]">
+                <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm  ${typeClass}">
+                    ${typeText}
+                </span>
+            </td>
+            <td class="px-6 py-3 w-[15%]">
+                ${transaction.nama_kategori}
+            </td>
+            <td class="px-6 py-3 w-[35%]">
+                ${transaction.deskripsi || '-'}
+            </td>
+            <td class="px-6 py-3 text-center w-[15%]">
+                Rp ${formatNumber(transaction.jumlah)}
+            </td>
+            <td class="px-6 py-3 text-center w-[10%]">
+                <div class="relative inline-flex">
+                    <button type="button" aria-expanded="false" aria-haspopup="false" id="ibnu"
+                        class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium transition-colors hover:bg-[#635985] "
+                        aria-label="Actions">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <div role="menu"
+                        class="actions-menu hidden absolute right-10 z-100 w-26  overflow-hidden rounded border shadow-sm border-gray-400 bg-[#3d3652]">
+                        <p
+                            class="block px-3 py-2 text-sm text-gray-200 divide-x border-b border-gray-400">
+                            Aksi</p>
+                        <button type="button" data-action="edit" onclick="editTransaction('${transaction.id}')"
+                            class="inline-flex items-center justify-between w-full px-3 py-2 text-left text-blue-700 transition-colors hover:bg-blue-50 dark:text-blue-600 dark:hover:bg-blue-700/20">
+                            Edit
+                        </button>
+                        <button type="button" data-action="delete" onclick="deleteTransaction('${transaction.id}')" 
+                            class="inline-flex items-center justify-between w-full px-3 py-2 text-left text-red-700 transition-colors hover:bg-red-50 dark:text-red-600 dark:hover:bg-red-700/20">
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            </td>
+        `;
         tbody.appendChild(row);
 
         // Mobile Card
@@ -339,18 +331,18 @@ function displayTransactions(transactions) {
                     <span class="text-xs font-medium px-2.5 py-0.5 rounded-sm ${typeClass}">
                         ${typeText}
                     </span>
-                    <p class="text-sm text-gray-300 mt-1">${formatDate(transaction.date)}</p>
+                    <p class="text-sm text-gray-300 mt-1">${formatDate(transaction.tanggal)}</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-lg font-bold text-gray-200">Rp ${formatNumber(transaction.amount)}</p>
+                    <p class="text-lg font-bold text-gray-200">Rp ${formatNumber(transaction.jumlah)}</p>
                 </div>
             </div>
             <div class="border-t border-gray-400/50 pt-2">
                 <p class="text-sm text-gray-300">
-                    <span class="font-medium">Kategori:</span> ${transaction.category_name}
+                    <span class="font-medium">Kategori:</span> ${transaction.nama_kategori}
                 </p>
                 <p class="text-sm text-gray-300 mt-1">
-                    <span class="font-medium">Note:</span> ${transaction.description || '-'}
+                    <span class="font-medium">Catatan:</span> ${transaction.deskripsi || '-'}
                 </p>
                 <div class="flex justify-end mt-3 space-x-2">
                     <button onclick="editTransaction('${transaction.id}')" 
@@ -359,7 +351,7 @@ function displayTransactions(transactions) {
                     </button>
                     <button onclick="deleteTransaction('${transaction.id}')" 
                             class="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700">
-                        Delete
+                        Hapus
                     </button>
                 </div>
             </div>
@@ -384,11 +376,9 @@ async function loadSummary() {
     try {
         const response = await fetch(`api/summary`);
         const summary = await response.json();
-
-        document.getElementById('income-display').textContent = `Rp ${formatNumber(summary.total_income)}`;
-        document.getElementById('expense-display').textContent = `Rp ${formatNumber(summary.total_expense)}`;
-        document.getElementById('balance-display').textContent = `Rp ${formatNumber(summary.balance)}`;
-
+        document.getElementById('income-display').textContent = `Rp ${formatNumber(summary.total_pendapatan)}`;
+        document.getElementById('expense-display').textContent = `Rp ${formatNumber(summary.total_pengeluaran)}`;
+        document.getElementById('balance-display').textContent = `Rp ${formatNumber(summary.saldo)}`;
     } catch (error) {
         console.error('Error loading summary:', error);
     }
@@ -400,17 +390,14 @@ function updateChart(transactions) {
         Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
         Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
     };
-
     financialChart.data.datasets.forEach(dataset => dataset.data.fill(0));
-
-    transactions.months.forEach((month, index) => {
+    transactions.bulan.forEach((month, index) => {
         const monthIndex = monthIndexMap[month];
         if (monthIndex !== undefined) {
-            financialChart.data.datasets[0].data[monthIndex] = transactions.income[index] || 0;
-            financialChart.data.datasets[1].data[monthIndex] = transactions.expense[index] || 0;
+            financialChart.data.datasets[0].data[monthIndex] = transactions.pendapatan[index] || 0;
+            financialChart.data.datasets[1].data[monthIndex] = transactions.pengeluaran[index] || 0;
         }
     });
-
     financialChart.update();
 }
 
@@ -426,7 +413,7 @@ function openModal(modal, mode, transaction = null) {
     });
 
     if (mode === 'add') {
-        updateCategories("income");
+        updateCategories('pendapatan');
         title.textContent = 'Tambah Transaksi Baru';
         submitBtn.textContent = 'Simpan Transaksi';
         document.getElementById('transaction-form').reset();
@@ -468,17 +455,16 @@ function closeModal() {
 // Fill form with transaction data
 function fillFormWithTransaction(transaction) {
     document.getElementById('transaction-id').value = transaction.id;
-    document.getElementById('amount').value = parseInt(transaction.amount, 10) || '';
-    document.getElementById('category').value = transaction.category_id || '';
-    document.getElementById('description').value = transaction.description || '';
-    document.getElementById('date').value = transaction.date;
+    document.getElementById('amount').value = parseInt(transaction.jumlah, 10) || '';
+    document.getElementById('category').value = transaction.id_kategori || '';
+    document.getElementById('description').value = transaction.deskripsi || '';
+    document.getElementById('date').value = transaction.tanggal;
 
     document.querySelectorAll('.transaction-type-btn').forEach(b => b.setAttribute('data-active', 'false'));
-    document.querySelector(`[data-type="${transaction.type_id}"]`).setAttribute('data-active', 'true');
+    document.querySelector(`[data-type="${transaction.tipe_id}"]`).setAttribute('data-active', 'true');
 
-    // Update state dan kategori
-    currentType = transaction.type_id;
-    updateCategories(transaction.type_id, transaction.category_id);
+    currentType = transaction.tipe_id;
+    updateCategories(transaction.tipe_id, transaction.id_kategori);
 }
 
 // Handle form submit
@@ -486,11 +472,11 @@ async function handleFormSubmit(e) {
     e.preventDefault(); //cegah reload halaman
 
     const formData = {
-        type: currentType,
-        amount: parseInt(document.getElementById('amount').value, 10),
-        category: parseInt(document.getElementById('category').value),
-        date: document.getElementById('date').value,
-        description: document.getElementById('description').value
+        tipe_id: currentType,
+        jumlah: parseFloat(document.getElementById('amount').value),
+        id_kategori: parseInt(document.getElementById('category').value),
+        tanggal: document.getElementById('date').value,
+        deskripsi: document.getElementById('description').value
     };
 
 
@@ -582,24 +568,30 @@ function deleteAllTransactions() {
         });
 }
 
-function updateCategories(type, selectedCategoryId = null) {
+function updateCategories(tipe_id, selectedCategoryId = null) {
     const categorySelect = document.getElementById('category');
 
     // Reset dropdown
-    categorySelect.innerHTML = '<option value="">Loading...</option>';
+    categorySelect.innerHTML = '<option value="">Memuat...</option>';
     categorySelect.disabled = true;
 
-    // Fetch kategori berdasarkan type
-    fetch(`/api/categories/${type}`)
+    // Fetch kategori berdasarkan tipe_id
+    fetch(`/api/categories/${tipe_id}`)
         .then(response => response.json())
         .then(categories => {
-            categorySelect.innerHTML = selectedCategoryId ?
-                `<option value="${selectedCategoryId}" selected>${categories.find(item => item.category_id === selectedCategoryId).name}</option>` :
-                '<option value="">Pilih Kategori</option>';
+            if (categories.error) {
+                categorySelect.innerHTML = '<option value="">Tidak ada kategori</option>';
+                categorySelect.disabled = true;
+                return;
+            }
+            categorySelect.innerHTML = '<option value="">Pilih Kategori</option>';
             categories.forEach(cat => {
                 const option = document.createElement('option');
-                option.value = cat.category_id;
-                option.textContent = cat.name;
+                option.value = cat.id_kategori;
+                option.textContent = cat.nama;
+                if (selectedCategoryId && cat.id_kategori == selectedCategoryId) {
+                    option.selected = true;
+                }
                 categorySelect.appendChild(option);
             });
             categorySelect.disabled = false;
