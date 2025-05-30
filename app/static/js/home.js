@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 function setupEventListeners() {
     // Add transaction button
     document.getElementById('add-transaction-btn').addEventListener('click', () => {
-        openModal('add');
+        openModal('transaction', 'add');
     });
 
     // Delete all button
@@ -350,10 +350,9 @@ async function loadSummary() {
         const response = await fetch(`api/summary`);
         const summary = await response.json();
 
-        document.getElementById('income-display').textContent = `RP.${formatNumber(summary.total_income)}`;
-        document.getElementById('expense-display').textContent = `RP.${formatNumber(summary.total_expense)}`;
-        document.getElementById('balance-display').textContent = `RP.${formatNumber(summary.balance)}`;
-
+        document.getElementById('income-display').textContent = `Rp ${formatNumber(summary.total_income)}`;
+        document.getElementById('expense-display').textContent = `Rp ${formatNumber(summary.total_expense)}`;
+        document.getElementById('balance-display').textContent = `Rp ${formatNumber(summary.balance)}`;
 
     } catch (error) {
         console.error('Error loading summary:', error);
@@ -381,7 +380,7 @@ function updateChart(transactions) {
 }
 
 // Open modal for add/edit
-function openModal(mode, transaction = null) {
+function openModal(modal, mode, transaction = null) {
     const backdrop = document.getElementById('backdrop');
     const title = document.getElementById('modal-title');
     const submitBtn = document.getElementById('submit-btn-text');
@@ -408,7 +407,7 @@ function openModal(mode, transaction = null) {
 
     // Tampilkan modal yang sesuai
     document
-        .querySelector(`.modal[data-modal="transaction-modal"]`)
+        .querySelector(`.modal[data-modal="${modal}"]`)
         .classList.remove("hidden");
 
     backdrop.classList.remove("invisible", "opacity-0");
@@ -500,7 +499,7 @@ async function editTransaction(id) {
     try {
         const response = await fetch(`api/transactions/${id}`);
         const transaction = await response.json();
-        openModal('edit', transaction);
+        openModal('transaction', 'edit', transaction);
 
     } catch (error) {
         console.error('Error loading transaction:', error);
@@ -579,14 +578,32 @@ function updateCategories(type, selectedCategoryId = null) {
 // Show confirmation modal
 function showConfirmModal(message, callback) {
     document.getElementById('confirm-message').textContent = message;
+    const backdrop = document.getElementById('backdrop');
+    document.querySelectorAll(".modal").forEach((modal) => {
+        modal.classList.add("hidden");
+    });
     document.getElementById('confirm-modal').classList.remove('hidden');
+
+    backdrop.classList.remove("invisible", "opacity-0");
+    backdrop.classList.add("visible", "opacity-100");
+
     confirmCallback = callback;
 }
 
 // Close confirmation modal
 function closeConfirmModal() {
-    document.getElementById('confirm-modal').classList.add('hidden');
-    confirmCallback = null;
+    const modal = document.getElementById('backdrop');
+    modal.classList.remove("opacity-100");
+    modal.classList.add("opacity-0");
+
+    // Tunggu transisi selesai, baru sembunyikan dari interaksi
+    setTimeout(() => {
+        document.getElementById('confirm-modal').classList.add('hidden');
+        confirmCallback = null;
+        modal.classList.remove("visible");
+        modal.classList.add("invisible");
+        currentEditId = null;
+    }, 300); // sama dengan duration-300
 }
 
 // Utility functions

@@ -131,11 +131,7 @@
 <div id="backdrop"
     class=" fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full max-h-full inset-0 bg-black/50">
     {{ modal.addTransactions() }}
-</div>
-
-<!-- Modal Konfirmasi Hapus -->
-<div id="confirm-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
-    <div class="bg-[#635985] rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
+    <div id="confirm-modal" class="modal bg-[#635985] rounded-lg shadow-lg p-6 w-full max-w-md mx-4 hidden" data-modal="confirm">
         <div class="text-center">
             <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -155,6 +151,9 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Konfirmasi Hapus -->
+
 <!-- <div id="backdrop" tabindex="-1" aria-hidden="true"
     class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 bg-black/50 ">
 </div> -->
