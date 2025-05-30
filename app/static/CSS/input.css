@@ -1,8 +1,6 @@
 @import "tailwindcss";
 /* npx tailwindcss -i ./static/css/input.css -o ./static/dist/output.css --watch   */
 
-
-
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -33,4 +31,88 @@
     --accent-secondary: #ef4444;
     --accent-secondary-hover: #991b1b;
     --link: #ffb86c;
+}
+
+/* Untuk seluruh website */
+html {
+    scrollbar-width:unset;
+    /* Untuk Firefox */
+    scrollbar-color: #3d3652 #635985;
+    /* Untuk Firefox */
+}
+
+/* Untuk browser WebKit (Chrome, Safari, Edge baru) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    /* untuk scrollbar horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #7f72ab;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b5f8d;
+}
+
+/* Custom Scrollbar */
+.scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #635985 #7f72ab;
+    max-height: calc(60vh - 40px);
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #7f72ab;
+    border-radius: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #6b5f8d;
+}
+
+/* Table Layout Fix */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+tbody {
+    display: block;
+    overflow-y: auto;
+}
+
+thead tr,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
 }

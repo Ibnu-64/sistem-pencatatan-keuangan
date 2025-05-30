@@ -11,6 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Tailwind CSS -->
     <link href="{{ url_for('static', filename='dist/output.css') }}" rel="stylesheet">
+
+    <!-- Global CSS -->
+
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -26,7 +31,7 @@
     {% block head %}{% endblock %}
 </head>
 
-<body class="bg-[#3d3652] min-h-screen">
+<body class="bg-[#3d3652] min-h-screen ">
     {% block navbar %}
     {{ nav.navBar() }}
     {% endblock %}

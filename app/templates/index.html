@@ -93,9 +93,9 @@
             </div>
         </div>
         <!-- Transaction Table -->
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-400/50">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-400/50 h-[60vh]">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs uppercase bg-[#7f72ab] text-gray-200 border-b border-gray-400/50">
+                <thead class="sticky top-0 text-xs uppercase bg-[#7f72ab] text-gray-200 border-b border-gray-400/50">
                     <tr>
                         <th scope="col" class="px-4 py-2 text-center">
                             Tanggal
@@ -110,14 +110,14 @@
                             Note
                         </th>
                         <th scope="col" class="px-4 py-2 text-center">
-                            Amout
+                            Amount
                         </th>
                         <th scope="col" class="px-4 py-2 text-center">
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody id="transaction-tbody">
+                <tbody id="transaction-tbody" class="block overflow-y-auto scrollbar-custom">
                 </tbody>
             </table>
             <div id="no-transactions" class="text-center text-gray-300 py-8 hidden">
@@ -131,7 +131,8 @@
 <div id="backdrop"
     class=" fixed top-0 right-0 left-0 z-50 invisible opacity-0 transition-opacity duration-300 flex justify-center items-center w-full max-h-full inset-0 bg-black/50">
     {{ modal.addTransactions() }}
-    <div id="confirm-modal" class="modal bg-[#635985] rounded-lg shadow-lg p-6 w-full max-w-md mx-4 hidden" data-modal="confirm">
+    <div id="confirm-modal" class="modal bg-[#635985] rounded-lg shadow-lg p-6 w-full max-w-md mx-4 hidden"
+        data-modal="confirm">
         <div class="text-center">
             <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
