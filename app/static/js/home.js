@@ -585,6 +585,11 @@ async function handleFormSubmit(e) {
         }
 
         if (response.ok) {
+            if (currentEditId) {
+                showToast('Transaksi berhasil diperbarui');
+            } else {
+                showToast('Transaksi berhasil ditambahkan');
+            }
             closeModal();
             loadTransactions();
             loadTransactionsMonthly();
@@ -624,6 +629,8 @@ function deleteTransaction(id) {
                 loadTransactionsMonthly();
                 loadSummary();
                 setupDynamicEventListeners()
+                showToast('Transaksi berhasil dihapus');
+
             } else {
                 alert('Terjadi kesalahan saat menghapus transaksi');
             }
@@ -632,6 +639,7 @@ function deleteTransaction(id) {
             alert('Terjadi kesalahan saat menghapus transaksi');
         }
     });
+
 }
 
 // Delete all transactions
@@ -639,6 +647,7 @@ function deleteAllTransactions() {
     fetch(`api/transactions`, { method: 'DELETE' })
         .then(response => {
             if (response.ok) {
+                showToast('Semua transaksi berhasil dihapus');
                 loadTransactions();
                 loadTransactionsMonthly();
                 loadSummary();
@@ -726,3 +735,25 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('id-ID');
 }
+
+function showToast(message = "Berhasil", duration = 3000) {
+    const toast = document.getElementById("toast-bottom-right");
+    const messageDiv = document.getElementById("toast-message");
+
+    messageDiv.textContent = message;
+    toast.classList.remove("hidden");
+    toast.classList.add("animate__fadeInUp");
+
+    setTimeout(() => {
+        toast.classList.remove("animate__fadeInUp");
+        toast.classList.add("hidden");
+    }, duration);
+}
+
+function hideToast() {
+    const toast = document.getElementById("toast-bottom-right");
+    toast.classList.remove("animate__fadeInUp");
+    toast.classList.add("hidden");
+}
+
+
