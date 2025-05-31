@@ -555,6 +555,11 @@ function fillFormWithTransaction(transaction) {
 async function handleFormSubmit(e) {
     e.preventDefault(); //cegah reload halaman
 
+    const jumlahValue = parseFloat(document.getElementById('amount').value);
+    if (isNaN(jumlahValue) || jumlahValue <= 0) {
+        showToast('Jumlah tidak boleh negatif', 'error');
+    }
+
     const formData = {
         tipe_id: currentType,
         jumlah: parseFloat(document.getElementById('amount').value),
@@ -562,8 +567,6 @@ async function handleFormSubmit(e) {
         tanggal: document.getElementById('date').value,
         deskripsi: document.getElementById('description').value
     };
-
-
 
 
     try {
@@ -596,11 +599,11 @@ async function handleFormSubmit(e) {
             loadSummary();
             setupDynamicEventListeners()
         } else {
-            alert('Terjadi kesalahan saat menyimpan transaksi');
+            showToast('Terjadi kesalahan saat menyimpan transaksi', 'error');
         }
     } catch (error) {
         console.error('Error saving transaction:', error);
-        alert('Terjadi kesalahan saat menyimpan transaksi');
+        showToast('error', 'error');
     }
 }
 
@@ -632,11 +635,11 @@ function deleteTransaction(id) {
                 showToast('Transaksi berhasil dihapus');
 
             } else {
-                alert('Terjadi kesalahan saat menghapus transaksi');
+                showToast('Terjadi kesalahan saat menghapus transaksi', 'error');
             }
         } catch (error) {
             console.error('Error deleting transaction:', error);
-            alert('Terjadi kesalahan saat menghapus transaksi');
+            showToast('Terjadi kesalahan saat menghapus transaksi', 'error');
         }
     });
 
@@ -647,17 +650,17 @@ function deleteAllTransactions() {
     fetch(`api/transactions`, { method: 'DELETE' })
         .then(response => {
             if (response.ok) {
-                showToast('Semua transaksi berhasil dihapus');
+                showToast('Semua transaksi berhasil dihapus', 'success');
                 loadTransactions();
                 loadTransactionsMonthly();
                 loadSummary();
             } else {
-                alert('Terjadi kesalahan saat menghapus semua transaksi');
+                showToast('Terjadi kesalahan saat menghapus semua transaksi', 'error');
             }
         })
         .catch(error => {
+            showToast('Terjadi kesalahan saat menghapus semua transaksi', 'error');
             console.error('Error deleting all transactions:', error);
-            alert('Terjadi kesalahan saat menghapus semua transaksi');
         });
 }
 
@@ -736,13 +739,32 @@ function formatDate(dateString) {
     return date.toLocaleDateString('id-ID');
 }
 
-function showToast(message = "Berhasil", duration = 3000) {
+function showToast(message = "Berhasil", type = 'success', duration = 3000) {
     const toast = document.getElementById("toast-bottom-right");
+    const icon = document.getElementById("icon-toast"); // Perbaiki id di sini
     const messageDiv = document.getElementById("toast-message");
 
     messageDiv.textContent = message;
     toast.classList.remove("hidden");
     toast.classList.add("animate__fadeInUp");
+
+    if (type === 'success') {
+        icon.innerHTML = `
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+            </svg>
+            <span class="sr-only">Check icon</span>
+            `;
+    } else {
+        icon.innerHTML = `
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+        </svg>
+        <span class="sr-only">Error icon</span>
+        `;
+    }
 
     setTimeout(() => {
         toast.classList.remove("animate__fadeInUp");
