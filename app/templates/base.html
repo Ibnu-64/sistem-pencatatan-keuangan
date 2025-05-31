@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 {% import 'components/nav.html' as nav %}
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{% block title %}Sistem Pencatatan Keuangan{% endblock %}</title>
+
+    <link rel="icon" href="../static/asset/bitcoin.svg" type="image/x-icon" />
+    <!-- cdn tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tailwind CSS -->
     <link href="{{ url_for('static', filename='dist/output.css') }}" rel="stylesheet">
+
+    <!-- Global CSS -->
+
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
     <!-- Font Awesome  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+
     {% block head %}{% endblock %}
 </head>
 
-<body>
+<body class="bg-[#3d3652] min-h-screen ">
     {% block navbar %}
     {{ nav.navBar() }}
-    {% endblock %} <!-- Navigasi -->
+    {% endblock %}
 
     {% block content %}{% endblock %} <!-- Konten utama halaman -->
-    {% block scripts %}{% endblock %} <!-- Skrip tambahan -->
+    {% block scripts %}{% endblock %}
 </body>
 
 </html>
