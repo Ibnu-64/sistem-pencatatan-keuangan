@@ -44,49 +44,58 @@
 
     <!-- Graph Area -->
     <div class="bg-[#635985] rounded-lg p-4 mb-6 border border-gray-400/50">
-        <span class="text-gray-200 font-medium flex items-center gap-2 mb-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
-            </svg>
-            1 Tahun Terakhir
-        </span>
-        <div>
+        <div class="inline-flex items-center justify-between w-full">
+            <h2 class="text-xl font-medium ml-2 text-gray-200">
+                Chart Keuangan
+            </h2>
+            <span
+                class="text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-sm bg-[#3d3652] text-cyan-500 border border-cyan-500">
+                <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                </svg>
+                1 Year Overview
+            </span>
+        </div>
+        <div class="chart-container">
             <canvas id="financialChart" style="position: relative; height:50vh; width:80vw"></canvas>
         </div>
+
     </div>
 
     <!-- Transaction History Section (Moved Below Chart) -->
     <div class="container p-4 rounded-lg bg-[#635985] text-white border border-gray-400/50">
-        <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+        <div class="flex  justify-between pb-4">
             <div>
                 <h2 class="text-xl font-medium ml-2">History Keuangan</h1>
             </div>
             <div class="space-x-2">
                 <button id="delete-all-btn"
-                    class="inline-flex items-center cursor-pointer font-medium rounded-sm text-sm px-5 py-2.5 text-center text-gray-200 bg-red-500 active:bg-red-600 transform transition-transform hover:bg-red-500/80 hover:scale-110 hover:-rotate-2">
+                    class="inline-flex items-center justify-center cursor-pointer font-medium rounded-md text-sm px-3 py-1.5 md:px-5 md:py-2.5 text-center text-gray-200 bg-red-500 active:bg-red-600 transform transition-transform hover:bg-red-500/80 hover:scale-110 hover:-rotate-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="me-1 -ms-1 w-4 h-4">
+                        stroke="currentColor" class=" w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>
                     <span class="hidden md:inline">Delete All</span>
                 </button>
                 <button type="submit" id="add-transaction-btn"
-                    class="inline-flex items-center cursor-pointer font-medium rounded-sm text-sm px-5 py-2.5 text-center text-gray-200 bg-cyan-600 active:bg-cyan-800 transform transition-transform hover:bg-cyan-600/80 hover:scale-110 hover:-rotate-2">
-                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                    class="inline-flex items-center justify-center cursor-pointer font-medium rounded-md text-sm px-3 py-1.5 md:px-5 md:py-2.5 text-center text-gray-200 bg-cyan-600 active:bg-cyan-800 transform transition-transform hover:bg-cyan-600/80 hover:scale-110 hover:-rotate-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    Tambah Transaksi
+                    <span class="hidden md:inline">Tambah Transaksi</span>
                 </button>
             </div>
-        </div> <!-- Transaction Table -->
-        <div class="relative overflow-y-auto shadow-md sm:rounded-lg border border-gray-400/50 h-[60vh]">
+        </div>
+        <!-- Transaction Table -->
+        <div
+            class="relative  shadow-md sm:rounded-lg border border-gray-400/50 h-[60vh] overflow-y-auto scrollbar-custom">
             <!-- Desktop Table -->
-            <table class="hidden md:table w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed">
+            <table class="hidden md:table w-full text-sm text-left  text-gray-500 dark:text-gray-400 table-fixed">
                 <thead class="sticky top-0 text-xs uppercase bg-[#7f72ab] text-gray-200 border-b border-gray-400/50">
                     <tr>
                         <th scope="col" class="px-6 py-3 w-[15%] text-center">

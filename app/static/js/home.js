@@ -108,6 +108,10 @@ function setupDynamicEventListeners() {
 function initializeChart() {
     const ctx = document.getElementById('financialChart').getContext('2d');
 
+    // Detect if mobile device
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+
     // Create gradient for Pendapatan
     const pendapatanGradient = ctx.createLinearGradient(0, 0, 0, 400);
     pendapatanGradient.addColorStop(0, 'rgba(6, 182, 212, 0.8)');
@@ -118,68 +122,102 @@ function initializeChart() {
     pengeluaranGradient.addColorStop(0, 'rgba(255, 160, 180, 0.8)');
     pengeluaranGradient.addColorStop(1, 'rgba(255, 160, 180, 0)');
 
+    // Responsive configuration
+    const responsiveConfig = {
+        legend: {
+            fontSize: isSmallMobile ? 10 : isMobile ? 12 : 14,
+            padding: isSmallMobile ? 10 : isMobile ? 15 : 20,
+            position: isMobile ? 'bottom' : 'top'
+        },
+        points: {
+            radius: isSmallMobile ? 2 : isMobile ? 3 : 4,
+            hoverRadius: isSmallMobile ? 4 : isMobile ? 5 : 6
+        },
+        ticks: {
+            fontSize: isSmallMobile ? 9 : isMobile ? 10 : 12,
+            padding: isSmallMobile ? 5 : isMobile ? 8 : 10
+        },
+        tooltip: {
+            titleSize: isSmallMobile ? 12 : isMobile ? 14 : 16,
+            bodySize: isSmallMobile ? 10 : isMobile ? 12 : 14,
+            padding: isSmallMobile ? 8 : isMobile ? 10 : 12
+        }
+    };
+
     financialChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            labels: isMobile ?
+                ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'] : // Shortened labels for mobile
+                ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [
                 {
                     label: 'Pendapatan',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     backgroundColor: pendapatanGradient,
                     borderColor: '#06b6d4',
-                    borderWidth: 2,
+                    borderWidth: isMobile ? 1.5 : 2,
                     tension: 0.2,
                     fill: true,
                     pointBackgroundColor: '#fff',
                     pointBorderColor: '#06b6d4',
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: responsiveConfig.points.radius,
+                    pointHoverRadius: responsiveConfig.points.hoverRadius,
+                    pointBorderWidth: isMobile ? 1 : 2
                 },
                 {
                     label: 'Pengeluaran',
                     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     backgroundColor: pengeluaranGradient,
                     borderColor: '#ff6888',
-                    borderWidth: 2,
+                    borderWidth: isMobile ? 1.5 : 2,
                     tension: 0.2,
                     fill: true,
                     pointBackgroundColor: '#fff',
                     pointBorderColor: '#ff6888',
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: responsiveConfig.points.radius,
+                    pointHoverRadius: responsiveConfig.points.hoverRadius,
+                    pointBorderWidth: isMobile ? 1 : 2
                 },
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
             plugins: {
                 legend: {
                     display: true,
-                    position: 'top',
+                    position: responsiveConfig.legend.position,
                     labels: {
                         color: 'white',
                         font: {
-                            size: 14,
+                            size: responsiveConfig.legend.fontSize,
                             family: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
                         },
-                        padding: 20,
+                        padding: responsiveConfig.legend.padding,
                         usePointStyle: true,
-                        pointStyle: 'circle'
+                        pointStyle: 'circle',
+                        boxWidth: isMobile ? 8 : 12,
+                        boxHeight: isMobile ? 8 : 12
                     }
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
                     titleFont: {
-                        size: 16,
+                        size: responsiveConfig.tooltip.titleSize,
                         weight: 'bold'
                     },
                     bodyFont: {
-                        size: 14
+                        size: responsiveConfig.tooltip.bodySize
                     },
-                    padding: 12,
+                    padding: responsiveConfig.tooltip.padding,
                     usePointStyle: true,
+                    cornerRadius: 8,
+                    displayColors: true,
                     callbacks: {
                         labelColor: function (context) {
                             return {
@@ -187,6 +225,24 @@ function initializeChart() {
                                 backgroundColor: context.dataset.borderColor,
                                 borderRadius: 2
                             };
+                        },
+                        // Format numbers for better mobile display
+                        label: function (context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            // Format large numbers with K, M notation on mobile
+                            if (isMobile && context.parsed.y >= 1000) {
+                                if (context.parsed.y >= 1000000) {
+                                    label += (context.parsed.y / 1000000).toFixed(1) + 'M';
+                                } else {
+                                    label += (context.parsed.y / 1000).toFixed(1) + 'K';
+                                }
+                            } else {
+                                label += context.parsed.y.toLocaleString();
+                            }
+                            return label;
                         }
                     }
                 }
@@ -196,27 +252,43 @@ function initializeChart() {
                     beginAtZero: true,
                     grid: {
                         color: 'rgba(255, 255, 255, 0.1)',
-                        drawBorder: false
+                        drawBorder: false,
+                        lineWidth: isMobile ? 0.5 : 1
                     },
                     ticks: {
                         color: 'white',
                         font: {
-                            size: 12
+                            size: responsiveConfig.ticks.fontSize
                         },
-                        padding: 10
+                        padding: responsiveConfig.ticks.padding,
+                        maxTicksLimit: isMobile ? 5 : 8,
+                        // Format y-axis labels for mobile
+                        callback: function (value) {
+                            if (isMobile && value >= 1000) {
+                                if (value >= 1000000) {
+                                    return (value / 1000000).toFixed(1) + 'M';
+                                } else {
+                                    return (value / 1000).toFixed(1) + 'K';
+                                }
+                            }
+                            return value.toLocaleString();
+                        }
                     }
                 },
                 x: {
                     grid: {
                         color: 'rgba(255, 255, 255, 0.1)',
-                        drawBorder: false
+                        drawBorder: false,
+                        lineWidth: isMobile ? 0.5 : 1
                     },
                     ticks: {
                         color: 'white',
                         font: {
-                            size: 12
+                            size: responsiveConfig.ticks.fontSize
                         },
-                        padding: 10
+                        padding: responsiveConfig.ticks.padding,
+                        maxRotation: isMobile ? 0 : 45,
+                        minRotation: 0
                     }
                 }
             },
@@ -226,6 +298,18 @@ function initializeChart() {
                 }
             }
         }
+    });
+
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+            if (financialChart) {
+                financialChart.destroy();
+                initializeChart();
+            }
+        }, 250);
     });
 }
 

@@ -35,7 +35,7 @@
 
 /* Untuk seluruh website */
 html {
-    scrollbar-width:unset;
+    scrollbar-width: thin;
     /* Untuk Firefox */
     scrollbar-color: #3d3652 #635985;
     /* Untuk Firefox */
@@ -115,4 +115,33 @@ tbody tr {
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+#financialChart {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        padding: 10px;
+        margin: 0 5px;
+    }
+
+    #financialChart {
+        min-height: 250px;
+        max-height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container {
+        padding: 5px;
+        margin: 0;
+    }
+
+    #financialChart {
+        min-height: 200px;
+        max-height: 300px;
+    }
 }
