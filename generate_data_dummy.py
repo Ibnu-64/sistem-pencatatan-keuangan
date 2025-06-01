@@ -45,11 +45,11 @@ for _ in range(jumlah_data):
     tanggal = random_date(datetime(2025, 1, 1), datetime(2025, 12, 31)).date()
 
     query = """
-    INSERT INTO transaksi (tipe_id, jumlah, id_kategori, deskripsi, tanggal)
-    VALUES (%s, %s, %s, %s, %s)
+    INSERT INTO transaksi (jumlah, id_kategori, deskripsi, tanggal)
+    VALUES (%s, %s, %s, %s)
     """
-    values = (tipe_id, jumlah, id_kategori, deskripsi, tanggal)
-    print(f"Menambahkan transaksi: {tipe_id}, {jumlah}, {id_kategori}, {deskripsi}, {tanggal}")
+    values = (jumlah, id_kategori, deskripsi, tanggal)
+    print(f"Menambahkan transaksi: {jumlah}, {id_kategori}, {deskripsi}, {tanggal}")
     cursor.execute(query, values)
 
 conn.commit()

@@ -36,17 +36,16 @@ INSERT IGNORE INTO kategori (nama, tipe_id) VALUES
     ('game', 'pengeluaran'),
     ('peliharaan', 'pengeluaran'),
     ('hobi', 'pengeluaran'),
-    ('belanja', 'pengeluaran');
+    ('belanja', 'pengeluaran'),
+    ('lainnya', 'pengeluaran');
 
 -- Tabel transaksi
 CREATE TABLE IF NOT EXISTS transaksi (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    tipe_id ENUM('pendapatan', 'pengeluaran') NOT NULL,
     jumlah DECIMAL(15,2) NOT NULL,
     id_kategori INT NOT NULL,
     deskripsi TEXT,
     tanggal DATE NOT NULL,
-    FOREIGN KEY (tipe_id) REFERENCES tipe_transaksi(tipe_id),
     FOREIGN KEY (id_kategori) REFERENCES kategori(id_kategori)
 );
 

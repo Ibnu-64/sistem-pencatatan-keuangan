@@ -13,7 +13,10 @@ def get_transactions_by_id(transaction_id):
     try:
         with connection.cursor(dictionary=True) as cursor:
             cursor.execute("""
-                SELECT * FROM transaksi WHERE id = %s
+                SELECT t.*, k.tipe_id, k.nama AS nama_kategori
+                FROM transaksi t
+                JOIN kategori k ON t.id_kategori = k.id_kategori
+                WHERE t.id = %s
             """, (transaction_id,))
             transaction = cursor.fetchone()
             if transaction is None:

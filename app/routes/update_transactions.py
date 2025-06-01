@@ -16,16 +16,20 @@ def update_transactions(transaction_id):
     try:
         data = request.get_json()
         # Validasi data
-        required_fields = ['tipe_id', 'jumlah', 'id_kategori', 'tanggal']
+        required_fields = ['jumlah', 'id_kategori', 'tanggal']
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Field {field} wajib diisi'}), 400
 
-        if data['tipe_id'] not in ['pendapatan', 'pengeluaran']:
-            return jsonify({'error': 'Tipe harus pendapatan atau pengeluaran'}), 400
-
         if float(data['jumlah']) <= 0:
             return jsonify({'error': 'Jumlah harus lebih dari 0'}), 400
+
+        # Validasi id_kategori dan ambil tipe_id dari kategori
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("SELECT tipe_id FROM kategori WHERE id_kategori = %s", (data['id_kategori'],))
+            kategori = cursor.fetchone()
+            if not kategori:
+                return jsonify({'error': 'Kategori tidak ditemukan'}), 400
 
         with connection.cursor() as cursor:
             # Cek apakah id transaksi ada
@@ -36,11 +40,10 @@ def update_transactions(transaction_id):
             # Update transaksi
             query = """
                 UPDATE transaksi 
-                SET tipe_id = %s, jumlah = %s, id_kategori = %s, deskripsi = %s, tanggal = %s
+                SET jumlah = %s, id_kategori = %s, deskripsi = %s, tanggal = %s
                 WHERE id = %s
             """
             values = (
-                data['tipe_id'],
                 float(data['jumlah']),
                 data['id_kategori'],
                 data.get('deskripsi', ''),
