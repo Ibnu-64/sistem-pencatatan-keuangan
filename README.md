@@ -1,4 +1,7 @@
 # 📝 Sistem Pencatatan Keuangan
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/7340d832-b09e-4fc2-8f00-0a6bcf086eb8" alt="Dashboard Screenshot" width="600"/>
+</div>
 
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.10-blue?logo=python" />
@@ -14,16 +17,6 @@
 **Sistem Pencatatan Keuangan** adalah aplikasi web untuk mencatat, mengelola, dan memantau pemasukan serta pengeluaran secara efisien dan terstruktur. Aplikasi ini dirancang untuk pengguna individu yang ingin mengontrol keuangan pribadi dengan mudah, lengkap dengan tampilan antarmuka yang modern dan responsif.
 
 > Proyek ini dikembangkan sebagai bagian dari tugas mata kuliah **Basis Data**, dengan fokus pada perancangan dan implementasi sistem basis data yang terstruktur dan ternormalisasi.
-
----
-
-## 📸 Preview UI
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/7340d832-b09e-4fc2-8f00-0a6bcf086eb8" alt="Dashboard Screenshot" width="600"/>
-  <br>
-  <em>Dashboard Pencatatan Keuangan</em>
-</div>
 
 ---
 
@@ -96,7 +89,8 @@ mysql -u <user> -p < ./app/sql/init.sql
 mysql -u <user> -p < ./app/sql/trigger.sql
 ```
 
-> **Catatan:** Pastikan `mysql` sudah tersedia di PATH environment.
+> [!NOTE]
+> Pastikan `mysql` sudah tersedia di PATH environment.
 
 ### 5. Install Tailwind CSS
 
@@ -104,8 +98,8 @@ mysql -u <user> -p < ./app/sql/trigger.sql
 npm install tailwindcss @tailwindcss/cli
 npx @tailwindcss/cli -i ./app/static/css/input.css -o ./app/static/dist/output.css --watch
 ```
-
-> **Catatan:** Pastikan sudah menginstal [Node.js](https://nodejs.org/) dan [npm](https://www.npmjs.com/).
+> [!NOTE]
+> Pastikan sudah menginstal [Node.js](https://nodejs.org/) dan [npm](https://www.npmjs.com/).
 
 ### 6. Jalankan Aplikasi
 
@@ -128,4 +122,3 @@ Aplikasi akan tersedia di [http://localhost:5000](http://localhost:5000)
   <strong>Happy coding & kelola keuanganmu dengan mudah! 🚀</strong>
 </div>
 
----
