@@ -382,13 +382,13 @@ function displayTransactions(transactions) {
             </td>
             <td class="px-6 py-3 text-center w-[10%]">
                 <div class="relative inline-flex">
-                    <button type="button" aria-expanded="false" aria-haspopup="false" id="ibnu"
+                    <button type="button" aria-expanded="false" aria-haspopup="false"
                         class="actions-menu-button px-3 py-1.5 text-sm rounded-lg font-medium transition-colors hover:bg-[#635985] "
                         aria-label="Actions">
                         <i class="fa-solid fa-ellipsis"></i>
                     </button>
                     <div role="menu"
-                        class="actions-menu hidden absolute right-10 z-100 w-26  overflow-hidden rounded border shadow-sm border-gray-400 bg-[#3d3652]">
+                        class="actions-menu hidden absolute right-10 w-26  overflow-hidden rounded border shadow-sm border-gray-400 bg-[#3d3652]">
                         <p
                             class="block px-3 py-2 text-sm text-gray-200 divide-x border-b border-gray-400">
                             Aksi</p>

@@ -82,7 +82,7 @@
             class="relative  shadow-md sm:rounded-lg border border-gray-400/50 h-[60vh] overflow-y-auto scrollbar-custom">
             <!-- Desktop Table -->
             <table class="hidden md:table w-full text-sm text-left  text-gray-500 dark:text-gray-400 table-fixed">
-                <thead class="sticky top-0 text-xs uppercase bg-[#7f72ab] text-gray-200 border-b border-gray-400/50">
+                <thead class="sticky z-100 top-0 text-xs uppercase bg-[#7f72ab] text-gray-200 border-b border-gray-400/50">
                     <tr>
                         <th scope="col" class="px-6 py-3 w-[15%] text-center">
                             Tanggal
@@ -104,7 +104,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody id="transaction-tbody">
+                <tbody id="transaction-tbody" class=" overflow-visible">
                 </tbody>
             </table>
 
