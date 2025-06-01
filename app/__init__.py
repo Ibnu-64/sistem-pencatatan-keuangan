@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_cors import CORS
 
 # Import routes
 from .routes.index import index_bp
