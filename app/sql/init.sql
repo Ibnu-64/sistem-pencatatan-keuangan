@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS tipe_transaksi (
 );
 
 INSERT INTO tipe_transaksi (tipe_id, keterangan) VALUES 
-    ('pendapatan', 'Pendapatan'),
-    ('pengeluaran', 'Pengeluaran');
+    ('pendapatan', 'Pemasukan uang'),
+    ('pengeluaran', 'Pengeluaran uang');
 
 -- Tabel kategori
 CREATE TABLE IF NOT EXISTS kategori (
