@@ -5,7 +5,7 @@ from app.database.db_connection import db_connection
 update_transactions_bp = Blueprint('update_transactions', __name__)
 
 
-@update_transactions_bp.route('/api/transactions/<string:transaction_id>', methods=['PUT'])
+@update_transactions_bp.route('/api/transactions/<int:transaction_id>', methods=['PUT'])
 def update_transactions(transaction_id):
     """Mengupdate transaksi berdasarkan ID"""
     connection = db_connection()

@@ -4,7 +4,7 @@ from app.database.db_connection import db_connection
 
 delete_transactions_bp = Blueprint('delete_transactions', __name__)
 
-@delete_transactions_bp.route('/api/transactions/<string:transaction_id>', methods=['DELETE'])
+@delete_transactions_bp.route('/api/transactions/<int:transaction_id>', methods=['DELETE'])
 def delete_transactions(transaction_id):
     """Menghapus transaksi berdasarkan ID"""
     connection = db_connection()

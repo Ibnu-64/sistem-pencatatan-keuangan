@@ -41,7 +41,7 @@ INSERT IGNORE INTO kategori (nama, tipe_id) VALUES
 
 -- Tabel transaksi
 CREATE TABLE IF NOT EXISTS transaksi (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    id INT AUTO_INCREMENT PRIMARY KEY,
     jumlah DECIMAL(15,2) NOT NULL,
     id_kategori INT NOT NULL,
     deskripsi TEXT,
