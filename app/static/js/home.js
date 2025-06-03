@@ -2,17 +2,16 @@
 let financialChart;
 let currentEditId = null;
 let confirmCallback = null;
-let currentType = 'pendapatan';
+let currentType = 'pendapatan'; // default
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', async function () {
     setupEventListeners();
     initializeChart();
     await loadTransactions();
-    await loadTransactionsMonthly()
+    await loadTransactionsMonthly();
     await loadSummary();
-    updateCategories(currentType)
-
+    updateCategories(currentType);
     document.getElementById('date').valueAsDate = new Date();
 });
 
@@ -44,24 +43,18 @@ function setupEventListeners() {
         closeConfirmModal();
     });
 
+    // Tab tipe transaksi
     document.querySelectorAll('.transaction-type-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             const type = this.dataset.type;
-            // Skip jika type sama dengan yang aktif
             if (type === currentType) return;
-
-            // Update UI
             document.querySelectorAll('.transaction-type-btn').forEach(b => {
                 b.dataset.active = (b === this).toString();
             });
-
-            // Update state dan kategori
             currentType = type;
-            // Ubah agar updateCategories menerima 'pendapatan' atau 'pengeluaran'
-            updateCategories(type);
+            updateCategories(currentType);
         });
     });
-
 
     // Close modals when clicking outside
     document.getElementById('backdrop').addEventListener('click', (e) => {
@@ -497,7 +490,11 @@ function openModal(modal, mode, transaction = null) {
     });
 
     if (mode === 'add') {
-        updateCategories('pendapatan');
+        currentType = 'pendapatan';
+        document.querySelectorAll('.transaction-type-btn').forEach(b => {
+            b.dataset.active = (b.dataset.type === 'pendapatan').toString();
+        });
+        updateCategories(currentType);
         title.textContent = 'Tambah Transaksi Baru';
         submitBtn.textContent = 'Simpan Transaksi';
         document.getElementById('transaction-form').reset();
@@ -543,12 +540,11 @@ function fillFormWithTransaction(transaction) {
     document.getElementById('category').value = transaction.id_kategori || '';
     document.getElementById('description').value = transaction.deskripsi || '';
     document.getElementById('date').value = transaction.tanggal;
-
-    document.querySelectorAll('.transaction-type-btn').forEach(b => b.setAttribute('data-active', 'false'));
-    document.querySelector(`[data-type="${transaction.tipe_id}"]`).setAttribute('data-active', 'true');
-
     currentType = transaction.tipe_id;
-    updateCategories(transaction.tipe_id, transaction.id_kategori);
+    document.querySelectorAll('.transaction-type-btn').forEach(b => {
+        b.dataset.active = (b.dataset.type === currentType).toString();
+    });
+    updateCategories(currentType, transaction.id_kategori);
 }
 
 // Handle form submit
@@ -558,10 +554,10 @@ async function handleFormSubmit(e) {
     const jumlahValue = parseFloat(document.getElementById('amount').value);
     if (isNaN(jumlahValue) || jumlahValue <= 0) {
         showToast('Jumlah tidak boleh negatif', 'error');
+        return;
     }
 
     const formData = {
-        tipe_id: currentType,
         jumlah: parseFloat(document.getElementById('amount').value),
         id_kategori: parseInt(document.getElementById('category').value),
         tanggal: document.getElementById('date').value,
@@ -597,7 +593,7 @@ async function handleFormSubmit(e) {
             loadTransactions();
             loadTransactionsMonthly();
             loadSummary();
-            setupDynamicEventListeners()
+            setupDynamicEventListeners();
         } else {
             showToast('Terjadi kesalahan saat menyimpan transaksi', 'error');
         }
@@ -664,14 +660,14 @@ function deleteAllTransactions() {
         });
 }
 
-function updateCategories(tipe_id, selectedCategoryId = null) {
+function updateCategories(tipe_id = 'pendapatan', selectedCategoryId = null) {
     const categorySelect = document.getElementById('category');
 
     // Reset dropdown
     categorySelect.innerHTML = '<option value="">Memuat...</option>';
     categorySelect.disabled = true;
 
-    // Fetch kategori berdasarkan tipe_id
+    // Fetch semua kategori
     fetch(`/api/categories/${tipe_id}`)
         .then(response => response.json())
         .then(categories => {

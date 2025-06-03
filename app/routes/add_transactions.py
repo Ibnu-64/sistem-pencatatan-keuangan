@@ -16,14 +16,10 @@ def add_transactions():
         data = request.get_json()
         
         # Validasi field yang diperlukan
-        required_fields = ['tipe_id', 'jumlah', 'id_kategori', 'tanggal']
+        required_fields = ['jumlah', 'id_kategori', 'tanggal']
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Field {field} wajib diisi'}), 422
-
-        # Validasi tipe_id
-        if data['tipe_id'] not in ['pendapatan', 'pengeluaran']:
-            return jsonify({'error': 'Tipe harus pendapatan atau pengeluaran'}), 422
 
         # Validasi jumlah
         try:
@@ -39,13 +35,19 @@ def add_transactions():
         except ValueError:
             return jsonify({'error': 'Format tanggal tidak valid. Gunakan YYYY-MM-DD'}), 422
 
+        # Validasi id_kategori dan ambil tipe_id dari kategori
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("SELECT tipe_id FROM kategori WHERE id_kategori = %s", (data['id_kategori'],))
+            kategori = cursor.fetchone()
+            if not kategori:
+                return jsonify({'error': 'Kategori tidak ditemukan'}), 422
+
         with connection.cursor() as cursor:
             query = """
-                INSERT INTO transaksi (tipe_id, jumlah, id_kategori, deskripsi, tanggal)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO transaksi (jumlah, id_kategori, deskripsi, tanggal)
+                VALUES (%s, %s, %s, %s)
             """
             values = (
-                data['tipe_id'],
                 jumlah,
                 data['id_kategori'],
                 data.get('deskripsi', ''),

@@ -19,18 +19,16 @@ def get_transactions():
             cursor.execute("""
                 SELECT 
                     t.id,
-                    t.tipe_id,
                     t.jumlah,
                     t.tanggal,
                     k.nama AS nama_kategori,
-                    tt.keterangan AS keterangan_tipe,
-                    t.deskripsi
+                    k.tipe_id AS tipe_id,
+                    t.deskripsi,
+                    k.id_kategori
                 FROM 
                     transaksi t
                 JOIN 
                     kategori k ON t.id_kategori = k.id_kategori
-                JOIN 
-                    tipe_transaksi tt ON t.tipe_id = tt.tipe_id
                 ORDER BY 
                     t.tanggal DESC
             """)
