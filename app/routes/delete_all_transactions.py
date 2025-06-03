@@ -11,15 +11,11 @@ def delete_all_transactions():
     if connection is None:
         return jsonify({'error': 'Koneksi database gagal'}), 500
     
-    
     try:
-        
         with connection.cursor() as cursor:
             cursor.execute("DELETE FROM transaksi")
             connection.commit()
-        
         return jsonify({'message': 'Semua transaksi berhasil dihapus'})
-        
     except Error as e:
         connection.rollback()
         return jsonify({'error': str(e)}), 500

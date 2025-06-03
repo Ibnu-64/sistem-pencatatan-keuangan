@@ -18,12 +18,13 @@ def get_monthly_summary():
     try:
         cursor.execute("""
             SELECT 
-                DATE_FORMAT(tanggal, '%Y-%m') as bulan,
-                SUM(CASE WHEN tipe_id = 'pendapatan' THEN jumlah ELSE 0 END) as pendapatan,
-                SUM(CASE WHEN tipe_id = 'pengeluaran' THEN jumlah ELSE 0 END) as pengeluaran
-            FROM transaksi
-            WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
-            GROUP BY DATE_FORMAT(tanggal, '%Y-%m')
+                DATE_FORMAT(t.tanggal, '%Y-%m') as bulan,
+                SUM(CASE WHEN k.tipe_id = 'pendapatan' THEN t.jumlah ELSE 0 END) as pendapatan,
+                SUM(CASE WHEN k.tipe_id = 'pengeluaran' THEN t.jumlah ELSE 0 END) as pengeluaran
+            FROM transaksi t
+            JOIN kategori k ON t.id_kategori = k.id_kategori
+            WHERE t.tanggal >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+            GROUP BY DATE_FORMAT(t.tanggal, '%Y-%m')
             ORDER BY bulan;
         """)
         
