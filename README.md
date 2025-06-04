@@ -118,7 +118,4 @@ Aplikasi akan tersedia di [http://localhost:5000](http://localhost:5000)
 
 ---
 
-<div align="center">
-  <strong>Happy coding & kelola keuanganmu dengan mudah! 🚀</strong>
-</div>
 
